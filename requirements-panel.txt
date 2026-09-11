@@ -1,0 +1,5 @@
+flask>=3.0
+PyYAML>=6.0
+requests>=2.28.0
+# 面板改配置时要保留 yaml 里的注释；缺失会退化为丢注释（不会报错）
+ruamel.yaml>=0.17.0

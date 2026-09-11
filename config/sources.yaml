@@ -1,0 +1,57 @@
+# ============================================================
+# 数据源注册表
+# ------------------------------------------------------------
+# 新增一个数据源：
+#   1. 在 src/sources/ 下新建一个 .py，实现 fetch() -> FetchResult
+#   2. 在下面照抄一段配置，填上 adapter 名
+#   3. 完事。主流程不用改。
+#
+# 停用数据源：把 enabled 改成 false（或直接删掉这一段）
+# 调整优先级：改 priority，数字越小越优先
+# ============================================================
+
+sources:
+  # ---------------- Alphapedia（主通道，当前唯一在用的）----------------
+  - name: alphapedia
+    adapter: alphapedia
+    enabled: true
+    priority: 8
+    options:
+      target: https://tool.lzpoke.com/api/alpha/current
+      # 转发服务地址从环境变量读（VPS 直连不通，需要中转）
+      transform_url_env: transfor_url
+      # 附加信息：由本源自行决定要不要放进推送消息
+      # 这些行会插在「头目信息」和「打法推荐」之间
+      extra_lines:
+        hms: true          # 到达需要的秘传机（冲浪/攀瀑等）
+        tier: false        # 头目星级，一般不需要
+        notes: false       # 数据源给的特殊备注
+        location_notes: true   # 地点补充说明（如几层、哪个洞）
+      # 英文名字段是本源的解析锚点，务必保留
+      prefer_english_keys: true
+
+  # ---------------- 致敬源（已下线，仅作适配器模板保留）----------------
+  # 源名是给人看的，adapter 是代码里的文件名，两者不必一致。
+  # 这里改名只是为了纪念，适配器 lanbizi.py 本身保持原样不动。
+  - name: 致敬源
+    adapter: lanbizi
+    enabled: false
+    priority: 20
+    options:
+      target: https://pokemmo.lanbizi.com/api/alpha/spawn/current
+      # 本源只给中文，没有英文字段，走中文名 + 别名表解析
+      prefer_english_keys: false
+      # 该源 monster_id 需要 /100 才得到全国图鉴号
+      monster_id_divisor: 100
+      extra_lines:
+        hms: false
+
+# ------------------------------------------------------------
+# 关于不同源的差异：
+#   - 语言不同：有的给中文，有的给英文，有的是机翻中文。
+#     只要源提供英文字段，就用英文查 pokedex.json 拿官方译名，
+#     机翻问题自动绕过；没有英文字段的源，走中文名 + 别名表。
+#   - 字段不同：有的带秘传机，有的不带。
+#     每个适配器自己决定把哪些字段渲染成 extra_lines，
+#     主流程只负责把它们插到固定位置。
+# ------------------------------------------------------------

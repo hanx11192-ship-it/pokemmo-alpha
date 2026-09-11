@@ -1,0 +1,118 @@
+{
+ "source": "Alphapedia",
+ "sourceUrl": "https://alpha.pokemmotools.org",
+ "openApiUrl": "https://alpha.pokemmotools.org/docs",
+ "fetchedAt": "2026-09-10T10:17:29.839Z",
+ "latest": {
+  "monsterId": 373,
+  "name": "暴飞龙",
+  "nameEn": "Salamence",
+  "region": "丰缘",
+  "regionEn": "Hoenn",
+  "location": "天空之柱<5层>",
+  "locationEn": "Sky Pillar 5F",
+  "reportedAt": "2026-09-10T09:44:41.000Z",
+  "activeUntil": "2026-09-10T10:59:41.000Z",
+  "isActive": true,
+  "reporter": "TestUser",
+  "sourceUrl": "https://alpha.pokemmotools.org/alpha-list?pokemon=Magnezone&region=Kanto&location=Power+Plant&timestamp=1789037981",
+  "catalog": [
+   {
+    "id": "373:hoenn:sky pillar",
+    "sourceType": "spawn",
+    "eventName": "",
+    "eventNameEn": "",
+    "monsterId": 373,
+    "name": "暴飞龙",
+    "nameEn": "Salamence",
+    "region": "丰缘",
+    "regionEn": "Hoenn",
+    "location": "天空之柱",
+    "locationEn": "Sky Pillar",
+    "locationNotes": "需要冲浪到达",
+    "locationNotesEn": "",
+    "mapLink": "",
+    "hms": [
+     "冲浪",
+     "攀瀑"
+    ],
+    "hmsEn": [
+     "Surf"
+    ],
+    "eggGroups": [
+     "龙组"
+    ],
+    "eggGroupsEn": [
+     "Dragon"
+    ],
+    "maleRatio": "50%",
+    "ability": "自信过度",
+    "abilityEn": "Moxie",
+    "moves": [
+     "龙爪",
+     "劈瓦",
+     "羽栖",
+     "铁壁"
+    ],
+    "movesEn": [
+     "Dragon Claw",
+     "Brick Break",
+     "Roost",
+     "Iron Defense"
+    ],
+    "notes": [],
+    "notesEn": [],
+    "tier": 7
+   }
+  ]
+ },
+ "slots": [
+  {
+   "index": 1,
+   "startIso": "2026-09-09T18:00:00.000Z",
+   "endIso": "2026-09-09T22:45:00.000Z",
+   "name": "晨头",
+   "timeLabel": "02:00 - 06:45",
+   "label": "晨头 02:00 - 06:45",
+   "isCurrent": false,
+   "hasSpawn": false
+  },
+  {
+   "index": 2,
+   "startIso": "2026-09-10T00:00:00.000Z",
+   "endIso": "2026-09-10T04:45:00.000Z",
+   "name": "早头",
+   "timeLabel": "08:00 - 12:45",
+   "label": "早头 08:00 - 12:45",
+   "isCurrent": false,
+   "hasSpawn": false
+  },
+  {
+   "index": 3,
+   "startIso": "2026-09-10T06:00:00.000Z",
+   "endIso": "2026-09-10T10:45:00.000Z",
+   "name": "午头",
+   "timeLabel": "14:00 - 18:45",
+   "label": "午头 14:00 - 18:45",
+   "isCurrent": true,
+   "hasSpawn": true
+  },
+  {
+   "index": 4,
+   "startIso": "2026-09-10T12:00:00.000Z",
+   "endIso": "2026-09-10T16:45:00.000Z",
+   "name": "晚头",
+   "timeLabel": "20:00 - 次日 00:45",
+   "label": "晚头 20:00 - 次日 00:45",
+   "isCurrent": false,
+   "hasSpawn": false
+  }
+ ],
+ "nextWindow": {
+  "index": 4,
+  "startIso": "2026-09-10T12:00:00.000Z",
+  "endIso": "2026-09-10T16:45:00.000Z",
+  "label": "晚头 20:00 - 次日 00:45",
+  "startsInMinutes": 103
+ }
+}

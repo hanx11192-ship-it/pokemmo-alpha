@@ -1,0 +1,11 @@
+.git
+.gitignore
+__pycache__
+*.pyc
+.cache
+logs
+data/state.json
+data/state.json.tmp
+panel/panel.db
+*.zip
+tests

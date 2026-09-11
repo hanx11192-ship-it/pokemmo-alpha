@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.cache/
+logs/
+data/state.json
+data/state.json.tmp
+.venv/
+panel/panel.db
+pokemmo_alpha.zip
+
+# 敏感配置（绝不提交）
+*.env
+.env.*
+panel.env
