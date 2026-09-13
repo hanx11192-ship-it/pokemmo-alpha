@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Alpha 分发决策面板{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">⚡ Alpha 分发决策面板</div>
+    <nav class="nav">
+      <a href="{{ url_for('index') }}">首页</a>
+      <a href="{{ url_for('debug_page') }}">调试</a>
+      <a href="{{ url_for('dispatchers_page') }}">分发器</a>
+    </nav>
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">Alpha Dispatch Panel · 仅用于学习研究，请遵守 Pokemmo 用户协议</footer>
+</body>
+</html>

@@ -89,10 +89,13 @@ def log_event(level: str, kind: str, message: str, source: str = ""):
         pass
 
 
-def list_logs(limit: int = 200, kind: str = None, source: str = None):
+def list_logs(limit: int = 200, kind: str = None, source: str = None, level: str = None):
     conn = get_db()
     sql = "SELECT * FROM logs WHERE 1=1"
     args = []
+    if level:
+        sql += " AND level=?"
+        args.append(level)
     if kind:
         sql += " AND kind=?"
         args.append(kind)

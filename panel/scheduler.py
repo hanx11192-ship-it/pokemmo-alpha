@@ -17,6 +17,7 @@ import os
 import sys
 import threading
 import time
+import datetime
 from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -73,8 +74,16 @@ def _build_report(boss, rules, pokedex, langs):
     return generate_report(boss, rules, pokedex, langs[0]), "builtin"
 
 
-def poll_once(debug: bool = False) -> dict:
+def poll_once(debug: bool = False, force: bool = False) -> dict:
     """执行一轮轮询。debug=True 时只生成报告不推送。返回结果 dict。"""
+    # 监控冷却：抓到头目并推送后暂停对源站轮询（默认 75 分钟）
+    # force=True 时忽略冷却（手动「立即检查」）
+    if not force and _monitor_paused():
+        until = float(db.get_kv("monitor_pause_until", "0") or 0)
+        logger.info("监控冷却中，跳过本轮源站请求（预计 %s 恢复，可手动强制检查）",
+                    time.strftime("%H:%M:%S", time.localtime(until)) if until else "?")
+        return {"status": "paused", "paused_until": until,
+                "message": "监控冷却中（抓到头目后暂停对源站轮询），可手动强制检查"}
     cfg = get_config()
     pokedex = get_pokedex()
     rules = Rules(cfg.rules, pokedex)
@@ -174,6 +183,7 @@ def poll_once(debug: bool = False) -> dict:
             "status": "deduped", "boss": boss.name, "slot": chosen.slot_name,
             "source": chosen_scfg["name"], "time": slot_info["time"],
         }, ensure_ascii=False))
+        _maybe_pause_after_detect(boss)
         return {"status": "deduped", "message": "本时段已报点，已跳过", "slot": slot_info}
 
     try:
@@ -184,6 +194,7 @@ def poll_once(debug: bool = False) -> dict:
         return {"status": "notify_error", "message": f"推送失败: {e}"}
 
     mark_processed_global(dedup_key)
+    _maybe_pause_after_detect(boss)
     slot_info["reported"] = True
     db.set_kv("current_slot", json.dumps(slot_info, ensure_ascii=False))
     excerpt = report[:200].replace("\n", " ")
@@ -268,6 +279,108 @@ def get_debug_state() -> dict:
     return st
 
 
+# ============================================================
+# 监控冷却：抓到头目后暂停对源站轮询，降低源站压力
+# ============================================================
+MONITOR_DEFAULT_PAUSE_MIN = 75  # 头目固定存活 75 分钟（不跨时段）
+
+
+# 时段边界（北京时间）：每 6 小时一个时段
+_SLOT_HOURS = [2, 8, 14, 20]  # 早/午/晚/晨 起点
+_TZ_BJ = datetime.timezone(datetime.timedelta(hours=8))
+
+
+def _now_beijing() -> datetime.datetime:
+    return datetime.datetime.now(_TZ_BJ)
+
+
+def _next_slot_start(now_bj: datetime.datetime) -> datetime.datetime:
+    """返回 now 之后最近的时段起点（北京时间）。"""
+    cand = []
+    for off in (0, 1):
+        d = (now_bj + datetime.timedelta(days=off)).date()
+        for h in _SLOT_HOURS:
+            c = datetime.datetime(d.year, d.month, d.day, h, 0, 0, tzinfo=_TZ_BJ)
+            if c > now_bj:
+                cand.append(c)
+    return min(cand)
+
+
+def set_monitor_pause_until_next_slot():
+    """休眠到下一时段开始（激进省源：覆盖本时段剩余 + 空窗）。"""
+    nxt = _next_slot_start(_now_beijing())
+    until = nxt.timestamp()
+    db.set_kv("monitor_pause_until", str(until))
+    db.set_kv("monitor_pause_minutes", str(max(0, int((until - time.time()) / 60))))
+
+
+def _monitor_paused() -> bool:
+    until = float(db.get_kv("monitor_pause_until", "0") or 0)
+    return until > time.time()
+
+
+def set_monitor_pause(minutes: int = None):
+    """设置监控冷却：now + minutes 分钟内不再打源站。"""
+    if minutes is None:
+        minutes = int(db.get_kv("monitor_pause_minutes",
+                                str(MONITOR_DEFAULT_PAUSE_MIN)) or MONITOR_DEFAULT_PAUSE_MIN)
+    db.set_kv("monitor_pause_minutes", str(minutes))
+    db.set_kv("monitor_pause_until", str(time.time() + minutes * 60))
+
+
+def clear_monitor_pause():
+    db.set_kv("monitor_pause_until", "0")
+
+
+def _maybe_pause_after_detect(boss):
+    """抓到头目（已推送 / 本时段已报点）后，按模式暂停对源站轮询。"""
+    if db.get_kv("monitor_auto_pause", "1") != "1":
+        return  # 自动暂停已关闭 → 持续监控，不暂停
+    mode = db.get_kv("monitor_pause_mode", "slot") or "slot"
+    if mode == "fixed":
+        set_monitor_pause(int(db.get_kv("monitor_pause_minutes",
+                                        str(MONITOR_DEFAULT_PAUSE_MIN)) or MONITOR_DEFAULT_PAUSE_MIN))
+    else:
+        set_monitor_pause_until_next_slot()  # 激进：睡到下一时段开始
+
+
+def set_monitor_auto_pause(enabled: bool = None, mode: str = None, minutes: int = None):
+    """设置监控冷却：enabled 开关 / mode(slot|fixed) / minutes(固定分钟)。"""
+    if enabled is not None:
+        db.set_kv("monitor_auto_pause", "1" if enabled else "0")
+        if not enabled:
+            clear_monitor_pause()  # 关闭自动暂停 = 立即恢复连续监控
+    if mode is not None:
+        db.set_kv("monitor_pause_mode", mode)
+    if minutes is not None:
+        db.set_kv("monitor_pause_minutes", str(int(minutes)))
+
+
+def get_monitor_state() -> dict:
+    auto = db.get_kv("monitor_auto_pause", "1") == "1"
+    mode = db.get_kv("monitor_pause_mode", "slot") or "slot"
+    until = float(db.get_kv("monitor_pause_until", "0") or 0)
+    mins = int(db.get_kv("monitor_pause_minutes",
+                         str(MONITOR_DEFAULT_PAUSE_MIN)) or MONITOR_DEFAULT_PAUSE_MIN)
+    paused = until > time.time()
+    remaining = max(0, int(until - time.time())) if paused else 0
+    return {
+        "auto_pause": auto,
+        "mode": mode,
+        "pause_minutes": mins,
+        "paused": paused,
+        "pause_until": until,
+        "pause_until_str": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(until)) if until else "",
+        "remaining_seconds": remaining,
+    }
+
+
+def force_check_once() -> dict:
+    """手动启用监控：解除冷却并立即轮询一次（不进入暂停）。"""
+    clear_monitor_pause()
+    return poll_once(debug=False, force=True)
+
+
 def _loop():
     """固定节奏轮询：以上一次开始时间为基准对齐，不叠加轮询耗时。
 
@@ -314,6 +427,36 @@ def start_scheduler_thread():
     logger.info("定时轮询线程已启动")
 
 
+def _current_slot_window(now=None):
+    """返回当前时段（北京时间）的 [起点, 终点) 两个 datetime。"""
+    now = now or datetime.datetime.now()
+    h = now.hour
+    if 2 <= h < 8:
+        start_h = 2
+    elif 8 <= h < 14:
+        start_h = 8
+    elif 14 <= h < 20:
+        start_h = 14
+    else:
+        start_h = 20
+    ws = now.replace(hour=start_h, minute=0, second=0, microsecond=0)
+    if start_h == 20 and h < 20:  # 当前在 0~2 点，窗口起点是昨天 20:00
+        ws = ws - datetime.timedelta(days=1)
+    return ws, ws + datetime.timedelta(hours=6)
+
+
+def _is_current_slot(time_str):
+    """current_slot.time（北京时间字符串）是否落在当前时段窗口内。"""
+    if not time_str:
+        return False
+    try:
+        ct = datetime.datetime.strptime(time_str, "%Y-%m-%d %H:%M:%S")
+    except Exception:
+        return False
+    ws, we = _current_slot_window()
+    return ws <= ct < we
+
+
 def get_scheduler_state() -> dict:
     enabled = db.get_kv("scheduler_enabled", "0") == "1"
     interval = int(db.get_kv("scheduler_interval", "60") or 60)
@@ -330,6 +473,7 @@ def get_scheduler_state() -> dict:
     except Exception:
         current_slot = {}
     # 判断当前时段是否已报点：current_slot.reported 为 True
+    current_slot_is_current = _is_current_slot(current_slot.get("time"))
     return {
         "enabled": enabled,
         "interval": interval,
@@ -337,7 +481,9 @@ def get_scheduler_state() -> dict:
         "last_run": last_run,
         "last_result": last_result,
         "current_slot": current_slot,
-        "reported_this_slot": bool(current_slot.get("reported")),
+        "current_slot_is_current": current_slot_is_current,
+        "reported_this_slot": bool(current_slot.get("reported") and current_slot_is_current),
+        "monitor": get_monitor_state(),
     }
 
 

@@ -8,7 +8,6 @@ data/state.json.tmp
 panel/panel.db
 pokemmo_alpha.zip
 
-# 敏感配置（绝不提交）
-*.env
-.env.*
-panel.env
+# 运行日志（不入库）
+panel.log
+*.log

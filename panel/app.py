@@ -34,6 +34,7 @@ import panel.auth as auth
 import panel.config_mgr as cfgmgr
 import panel.scheduler as scheduler_mod
 import panel.channels as channel_mod
+from src.sources import create_source
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("PANEL_SECRET", "alpha-panel-dev-secret")
@@ -134,7 +135,7 @@ def api_dashboard():
     srcs = cfgmgr.list_sources()
     enabled = sum(1 for s in srcs if s.get("enabled"))
     logs = db.list_logs(limit=12)
-    spawn_logs = db.list_logs(limit=200, kind="spawn")
+    spawn_logs = db.list_logs(limit=200, level="spawn")
     disp = db.get_db().execute(
         "SELECT name FROM dispatchers WHERE active=1 LIMIT 1").fetchone()
     conn = db.get_db()
@@ -263,6 +264,44 @@ def api_scheduler_debug():
 def api_scheduler_debug_state():
     """查询后台 debug 轮询的状态/结果。"""
     return jsonify(scheduler_mod.get_debug_state())
+
+
+# ============================================================
+# 监控冷却（抓到头目后暂停对源站轮询）
+# ============================================================
+@app.route("/api/monitor", methods=["GET"])
+@auth.login_required
+def api_monitor_state():
+    """查询监控冷却状态。"""
+    return jsonify(scheduler_mod.get_monitor_state())
+
+
+@app.route("/api/monitor/check", methods=["POST"])
+@auth.login_required
+def api_monitor_check():
+    """手动立即检查：解除冷却并立即轮询一次。"""
+    result = scheduler_mod.force_check_once()
+    db.log_event("info", "scheduler", "手动立即检查（解除监控冷却）", source="panel")
+    return jsonify({"ok": True, "result": result, **scheduler_mod.get_monitor_state()})
+
+
+@app.route("/api/monitor/auto-pause", methods=["POST"])
+@auth.login_required
+def api_monitor_auto_pause():
+    """设置监控冷却：enabled 开关 / mode(slot|fixed) / pause_minutes。"""
+    data = request.get_json(silent=True) or {}
+    enabled = data.get("enabled")
+    mode = data.get("mode")
+    minutes = data.get("pause_minutes")
+    scheduler_mod.set_monitor_auto_pause(
+        enabled=bool(enabled) if enabled is not None else None,
+        mode=mode,
+        minutes=minutes,
+    )
+    db.log_event("info", "scheduler",
+                 f"监控设置更新 auto_pause={enabled} mode={mode} minutes={minutes}",
+                 source="panel")
+    return jsonify({"ok": True, **scheduler_mod.get_monitor_state()})
 
 
 # ============================================================
@@ -445,9 +484,17 @@ def api_dispatchers():
 @auth.login_required
 def api_disp_enable(did):
     body = request.get_json(silent=True) or {}
-    db.get_db().execute("UPDATE dispatchers SET enabled=? WHERE id=?",
-                        (1 if body.get("enabled", True) else 0, did))
-    db.get_db().commit()
+    enabled = 1 if body.get("enabled", True) else 0
+    conn = db.get_db()
+    conn.execute("UPDATE dispatchers SET enabled=? WHERE id=?", (enabled, did))
+    # 启用时若当前没有任何激活决策器，则自动设为当前，使「启用」即可生效
+    if enabled:
+        active_cnt = conn.execute(
+            "SELECT COUNT(*) FROM dispatchers WHERE active=1").fetchone()[0]
+        if active_cnt == 0:
+            conn.execute("UPDATE dispatchers SET active=0")
+            conn.execute("UPDATE dispatchers SET active=1 WHERE id=?", (did,))
+    conn.commit()
     return jsonify({"ok": True})
 
 
@@ -957,6 +1004,157 @@ def api_about():
             "zh": "由 WorkBuddy 协助构建 · 面板风格参考 ZhuQue API Gateway",
             "en": "Built with WorkBuddy · Panel style inspired by ZhuQue API Gateway",
         },
+    })
+
+
+# ============================================================
+# 头目 API（报点数据 + 分发决策）
+# ============================================================
+
+def _get_boss_source():
+    """构造 lzpoke_reports 适配器实例（配置从 sources.yaml 取）。
+
+    优先用已注册的源；找不到时回退到内置默认配置，保证 API 永远能跑。
+    """
+    scfg = None
+    for s in cfgmgr.list_sources():
+        if s.get("adapter") == "lzpoke_reports":
+            scfg = s
+            break
+    if scfg is None:
+        scfg = {
+            "name": "LZPoke 报点", "adapter": "lzpoke_reports",
+            "enabled": True, "priority": 10,
+            "options": {"target": "https://tool.lzpoke.com/api/reports?type=alpha"},
+        }
+    return create_source(
+        scfg["adapter"],
+        options=scfg.get("options") or {},
+        pokedex=pokedex(),
+    )
+
+
+def _boss_to_dict(boss):
+    """把 BossData 转成可 JSON 序列化的 dict（extra_lines 一并展开）。"""
+    if boss is None:
+        return None
+    return {
+        "name": boss.name,
+        "ability": boss.ability,
+        "moves": boss.moves,
+        "period": boss.period,
+        "location": boss.location,
+        "location_en": boss.location_en,
+        "reporter": boss.reporter,
+        "gender_male_percent": boss.gender.male_percent,
+        "egg_groups": boss.egg_groups,
+        "pokedex_id": boss.pokedex_id,
+        "ability_id": boss.ability_id,
+        "move_ids": [m for m in boss.move_ids if m is not None],
+        "source": boss.source,
+        "reported_at": boss.reported_at,
+        "extra_lines": [{"zh": e.zh, "en": e.en} for e in (boss.extra_lines or [])],
+    }
+
+
+@app.route("/api/boss/reports")
+@auth.login_required
+def api_boss_reports():
+    """头目报点 API：实时拉取 LZPoke 报点并归一化返回。
+
+    返回 { ok, source, type, reports:[{raw, boss, parsed, confirmed}], message }。
+    每条 report.boss 是归一化后的头目（字段同调试页），可直接喂给决策器。
+    """
+    src = _get_boss_source()
+    try:
+        res = src.fetch_reports()
+    except Exception as e:
+        return jsonify({"ok": False, "error": f"拉取失败: {e}"}), 502
+    if not res.get("ok"):
+        return jsonify({"ok": False, "error": res.get("message", "未知错误")}), 502
+
+    out = []
+    for r in res.get("reports", []):
+        out.append({
+            "raw": r.get("raw"),
+            "parsed": r.get("parsed"),
+            "confirmed": r.get("confirmed"),
+            "boss": _boss_to_dict(r.get("boss")),
+        })
+    return jsonify({
+        "ok": True,
+        "source": src.name,
+        "type": "alpha",
+        "reports": out,
+        "message": res.get("message", ""),
+    })
+
+
+@app.route("/api/boss/dispatch", methods=["POST"])
+@auth.login_required
+def api_boss_dispatch():
+    """头目分发决策 API：对某个报点跑当前生效的决策器，返回播报文本。
+
+    请求体（JSON）二选一：
+      {"report_id": "<报点 UUID>"}   按原始报点 id 选
+      {"index": 0}                   按 /api/boss/reports 返回里的序号选
+    都不给则默认取第一条。
+    """
+    data = request.get_json(silent=True) or {}
+    report_id = data.get("report_id")
+    index = data.get("index")
+
+    src = _get_boss_source()
+    try:
+        res = src.fetch_reports()
+    except Exception as e:
+        return jsonify({"ok": False, "error": f"拉取失败: {e}"}), 502
+    reports = res.get("reports", []) if res.get("ok") else []
+    if not reports:
+        return jsonify({"ok": False, "error": "当前没有可决策的报点"}), 404
+
+    chosen = None
+    if report_id:
+        for r in reports:
+            if (r.get("raw") or {}).get("id") == report_id:
+                chosen = r
+                break
+    elif index is not None:
+        try:
+            chosen = reports[int(index)]
+        except Exception:
+            chosen = None
+    if chosen is None:
+        chosen = reports[0]
+    if chosen.get("boss") is None:
+        return jsonify({"ok": False, "error": "该报点无法解析为头目数据"}), 422
+
+    boss = chosen["boss"]
+    conn = db.get_db()
+    row = conn.execute(
+        "SELECT filename FROM dispatchers WHERE active=1 LIMIT 1").fetchone()
+    if not row:
+        row = conn.execute(
+            "SELECT filename FROM dispatchers WHERE is_builtin=1 LIMIT 1").fetchone()
+    conn.close()
+    if not row:
+        return jsonify({"ok": False, "error": "没有可用分发器"}), 500
+
+    langs = {"zh": ["zh"], "en": ["en"], "both": ["zh", "en"]}.get(
+        cfgmgr.get_push_language(), ["zh"])
+    try:
+        report_text = dispatch_mod.run_dispatcher(
+            row["filename"], boss,
+            {"pokedex": pokedex(), "rules": rules(), "langs": langs})
+    except Exception as e:
+        return jsonify({"ok": False, "error": f"决策器执行失败: {e}"}), 500
+
+    return jsonify({
+        "ok": True,
+        "dispatcher": row["filename"],
+        "report": report_text,
+        "boss": _boss_to_dict(boss),
+        "raw": chosen.get("raw"),
     })
 
 

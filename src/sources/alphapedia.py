@@ -20,6 +20,7 @@ CN_TZ = timezone(timedelta(hours=8))
 
 # 本源时段的英文写法（中文由 API 直接给）
 SLOT_NAME_EN = {
+    "凌晨头": "Dawn Alpha",
     "晨头": "Dawn Alpha",
     "早头": "Morning Alpha",
     "午头": "Noon Alpha",

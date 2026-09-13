@@ -38,7 +38,8 @@
       const el = document.getElementById(id);
       if (el) el.addEventListener("change", e => onchange(e.target.checked));
     }, 0);
-    return `<label class="switch"><input type="checkbox" id="${id}" ${on ? "checked" : ""}><span class="slider"></span></label>`;
+    // 不用 <label> 包裹，避免点击滑块时 label 二次转发导致开关被连点两次而复位
+    return `<span class="switch"><input type="checkbox" id="${id}" ${on ? "checked" : ""}><span class="slider" onclick="document.getElementById('${id}').click()"></span></span>`;
   }
   function openModal(title, bodyHtml, onOk) {
     const mask = document.createElement("div");
@@ -227,7 +228,14 @@
         <div>${t("sched.status")}: <b>${sc.enabled ? t("dash.running") : t("dash.stopped")}</b> ·
           ${t("dash.last_run")}: ${esc(sc.last_run || "-")} ·
           ${t("sched.last_result")}: ${esc(lr.status || "-")} ${lr.boss ? "· " + esc(lr.boss) : ""}</div>
-        <div style="margin-top:10px">${t("dash.current_slot")}: ${slotHtml}</div>
+        <div style="margin-top:10px">${(sc.current_slot_is_current ? t("dash.current_slot") : t("dash.last_slot"))}: ${slotHtml}</div>
+        <div style="margin-top:6px">${t("monitor.title")}: ${
+          (sc.monitor && sc.monitor.auto_pause === false)
+            ? `<span class="tag gray">${t("monitor.continuous")}</span>`
+            : (sc.monitor && sc.monitor.paused)
+              ? `<span class="tag blue">${t("monitor.paused")} · ${t("monitor.resume_at")} ${esc(sc.monitor.pause_until_str || "")}</span>`
+              : `<span class="tag green">${t("monitor.active")}</span>`
+        }</div>
       </div>
       <div class="panel">
         <div class="panel-head"><h3>${t("dash.recent_logs")}</h3></div>
@@ -367,8 +375,27 @@
         </div>
       </div>
       <div class="panel">
-        <div class="panel-head"><h3>${t("dash.current_slot")}</h3></div>
-        ${sc.reported_this_slot ? `<div class="alert success">${t("sched.reported_this_slot")}</div>` : ""}
+        <div class="panel-head"><h3>${t("monitor.title")}</h3></div>
+        <div class="form">
+          <div class="row"><label>${t("monitor.status")}</label><span id="mon_status">…</span></div>
+          <div class="row"><label>${t("monitor.auto_pause")}</label><div id="mon_auto_box"></div></div>
+          <div class="row"><label>${t("monitor.mode")}</label>
+            <select id="mon_mode">
+              <option value="slot">${t("monitor.mode_slot")}</option>
+              <option value="fixed">${t("monitor.mode_fixed")}</option>
+            </select></div>
+          <div class="row" id="mon_min_row"><label>${t("monitor.minutes")}</label><input id="mon_min" type="number" min="1" value="75" /></div>
+          <div class="row actions">
+            <button class="btn btn-blue" id="mon_check">${t("monitor.check_now")}</button>
+            <button class="btn" id="mon_apply">${t("monitor.apply")}</button>
+            <button class="btn" id="mon_refresh">${t("monitor.refresh")}</button>
+          </div>
+          <div class="hint">${t("monitor.hint")}</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>${(sc.current_slot_is_current ? t("dash.current_slot") : t("dash.last_slot"))}</h3></div>
+        ${(sc.current_slot_is_current && sc.reported_this_slot) ? `<div class="alert success">${t("sched.reported_this_slot")}</div>` : ""}
         ${cs.boss ? `<div>${esc(cs.slot || "")} · <b>${esc(cs.boss)}</b> · 源=${esc(cs.source)} · 决策器=${esc(cs.dispatcher || "")} · ${esc(cs.time || "")}</div>`
           : `<div class="text-weak">-</div>`}
         <div style="margin-top:8px">${t("dash.last_run")}: ${esc(sc.last_run || "-")}</div>
@@ -407,6 +434,67 @@
         else el.textContent = JSON.stringify(d, null, 2);
         toast(t("common.ok"), "ok");
       }, 1000);
+    };
+
+    // ---- 监控冷却面板 ----
+    const mon = sc.monitor || {};
+    function fmtMonRemain(s) {
+      if (s == null) return "";
+      const m = Math.floor(s / 60), ss = s % 60;
+      return m + t("monitor.min_unit") + " " + ss + t("monitor.sec_unit");
+    }
+    function refreshMonitorUI(m) {
+      const st = document.getElementById("mon_status");
+      if (!st) return;
+      if (m.auto_pause === false) {
+        st.innerHTML = `<span class="tag gray">${t("monitor.continuous")}</span>`;
+      } else if (m.paused) {
+        st.innerHTML = `<span class="tag blue">${t("monitor.paused")} ${fmtMonRemain(m.remaining_seconds)} · ${t("monitor.resume_at")} ${esc(m.pause_until_str || "")}</span>`;
+      } else {
+        st.innerHTML = `<span class="tag green">${t("monitor.active")}</span>`;
+      }
+      const modeEl = document.getElementById("mon_mode");
+      if (modeEl) modeEl.value = m.mode || "slot";
+      const minEl = document.getElementById("mon_min");
+      if (minEl) minEl.value = m.pause_minutes || 75;
+      const minRow = document.getElementById("mon_min_row");
+      if (minRow) minRow.style.display = (m.mode === "fixed") ? "" : "none";
+    }
+    refreshMonitorUI(mon);
+    const autoBox = document.getElementById("mon_auto_box");
+    if (autoBox) autoBox.innerHTML = switchEl(mon.auto_pause !== false, v => {
+      api("/api/monitor/auto-pause", { method: "POST", json: { enabled: v } }).then(r => {
+        if (r.ok) { refreshMonitorUI(r.data); toast(t("common.save"), "ok"); }
+      });
+    });
+    const modeEl2 = document.getElementById("mon_mode");
+    if (modeEl2) modeEl2.onchange = e => {
+      const fixed = e.target.value === "fixed";
+      const minRow = document.getElementById("mon_min_row");
+      if (minRow) minRow.style.display = fixed ? "" : "none";
+    };
+    const applyBtn = document.getElementById("mon_apply");
+    if (applyBtn) applyBtn.onclick = async () => {
+      const mode = document.getElementById("mon_mode").value;
+      const minutes = +document.getElementById("mon_min").value || 75;
+      const auto = document.querySelector("#mon_auto_box input")?.checked;
+      const r = await api("/api/monitor/auto-pause", { method: "POST",
+        json: { enabled: auto, mode, pause_minutes: minutes } });
+      if (r.ok) { refreshMonitorUI(r.data); toast(t("common.save"), "ok"); }
+      else toast(t("common.error"), "err");
+    };
+    const checkBtn = document.getElementById("mon_check");
+    if (checkBtn) checkBtn.onclick = async () => {
+      checkBtn.disabled = true;
+      const r = await api("/api/monitor/check", { method: "POST" });
+      checkBtn.disabled = false;
+      if (r.ok) { refreshMonitorUI(r.data); toast(t("monitor.check_done"), "ok"); }
+      else toast(t("common.error"), "err");
+    };
+    const refBtn = document.getElementById("mon_refresh");
+    if (refBtn) refBtn.onclick = async () => {
+      const r = await api("/api/monitor");
+      if (r.ok) refreshMonitorUI(r.data);
     };
   }
 

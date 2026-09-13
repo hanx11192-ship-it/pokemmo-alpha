@@ -59,7 +59,12 @@ CHANNEL_TYPES = {
 
 
 def _render(tpl: str, content: str, summary: str) -> str:
-    return (tpl or "").replace("{content}", content).replace("{summary}", summary or "")
+    # 把 content/summary 转义为「合法的 JSON 字符串片段」（去掉首尾引号）。
+    # 这样即使正文里出现英文双引号、反斜杠、换行等字符，替换进模板后整体
+    # 仍是合法 JSON，避免下游（如 qq-bridge）解析报 "bad json"。
+    safe_content = json.dumps(content or "")[1:-1]
+    safe_summary = json.dumps(summary or "")[1:-1]
+    return (tpl or "").replace("{content}", safe_content).replace("{summary}", safe_summary)
 
 
 def _parse_ids(v):

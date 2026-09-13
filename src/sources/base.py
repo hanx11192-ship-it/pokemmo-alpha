@@ -14,6 +14,8 @@ import re
 from typing import Optional, List
 
 import requests
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 from ..core.config import get_config
 from ..core.models import FetchResult, ExtraLine
@@ -74,9 +76,16 @@ class BaseSource:
     def http_request(self, method: str, url: str, headers: dict = None) -> requests.Response:
         http = self.config.http
         proxies = None
-        proxy = http.get("proxy") or os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")
+        # 源级代理优先(只影响本源请求),其次全局配置或环境变量
+        proxy = (self.options.get("proxy")
+                 or http.get("proxy")
+                 or os.environ.get("HTTPS_PROXY")
+                 or os.environ.get("https_proxy"))
         if proxy:
+            no_proxy = os.environ.get("NO_PROXY") or os.environ.get("no_proxy") or ""
             proxies = {"http": proxy, "https": proxy}
+            if no_proxy:
+                proxies["no_proxy"] = no_proxy
         # 分别给「连接」和「读取」设超时：连不上时快速失败，不要白等整个 timeout。
         # 源不可达属于典型情况（海外直连不通），这一项直接决定面板手感。
         total = http.get("timeout", 20)

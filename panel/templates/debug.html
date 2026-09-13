@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}调试 · Alpha 分发决策面板{% endblock %}
+{% block content %}
+<h1>🐞 调试分页</h1>
+<p class="muted">构造一个假定头目，喂给分发器，实时查看打法产出。图鉴里有的可点选，没有的手动键入。</p>
+
+<form id="debug-form" class="form">
+  <div class="row">
+    <label>头目精灵 *</label>
+    <input id="pokemon" list="pokemon-list" placeholder="搜索精灵（中文/英文）" autocomplete="off" required />
+    <datalist id="pokemon-list"></datalist>
+    <span class="hint">选完后自动带出特性 / 蛋组 / 性别</span>
+  </div>
+
+  <div class="row">
+    <label>特性</label>
+    <input id="ability" list="ability-list" placeholder="特性（图鉴点选或手填）" autocomplete="off" />
+    <datalist id="ability-list"></datalist>
+  </div>
+
+  <div class="row">
+    <label>性别</label>
+    <select id="gender">
+      <option value="dual" selected>双性别（出完整打法）</option>
+      <option value="male">仅雄性</option>
+      <option value="female">仅雌性</option>
+      <option value="none">无性别</option>
+    </select>
+  </div>
+
+  <div class="row">
+    <label>蛋组</label>
+    <input id="egg_groups" placeholder="自动带出，可改" />
+  </div>
+
+  <div class="row">
+    <label>技能（最多 4）</label>
+    <input id="move-input" list="move-list" placeholder="输入或搜索技能，回车/逗号添加" autocomplete="off" />
+    <datalist id="move-list"></datalist>
+    <div id="move-chips" class="chips"></div>
+  </div>
+
+  <div class="row">
+    <label>分发器</label>
+    <select id="dispatcher"></select>
+  </div>
+
+  <div class="row">
+    <label>输出语言</label>
+    <select id="lang">
+      <option value="zh" selected>中文</option>
+      <option value="en">英文</option>
+      <option value="both">中英双语</option>
+    </select>
+  </div>
+
+  <div class="row actions">
+    <button type="submit" id="run-btn">▶ 运行分发器</button>
+    <span id="status" class="status"></span>
+  </div>
+</form>
+
+<h3>产出</h3>
+<pre id="report" class="report">—</pre>
+<div id="resolved" class="resolved"></div>
+
+<script src="{{ url_for('static', filename='debug.js') }}"></script>
+{% endblock %}

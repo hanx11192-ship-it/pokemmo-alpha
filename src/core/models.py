@@ -112,7 +112,7 @@ class FetchResult:
     # 没有时段概念的源：填 dedup_key 就行，slot_name 留空（摘要走兜底）；
     # 连 dedup_key 都不填也没关系，基类会用头目内容算指纹兜底。
     dedup_key: str = ""         # 去重用标识（通常是报点时间）
-    slot_name: str = ""         # 时段名（早头/午头/晚头/晨头），用作推送摘要
+    slot_name: str = ""         # 时段名（早头/午头/晚头/凌晨头），用作推送摘要
     slot_name_en: str = ""      # 时段名英文
     message: str = ""
 

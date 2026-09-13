@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}分发器 · Alpha 分发决策面板{% endblock %}
+{% block content %}
+<h1>🧩 分发分页</h1>
+<p class="muted">启用 / 关闭分发器，上传 / 下载 / 删除自定义分发器，并切换当前生效的决策器。</p>
+
+<table class="tbl">
+  <thead>
+    <tr>
+      <th>名称</th><th>文件</th><th>优先级</th><th>状态</th><th>当前生效</th><th>内置</th><th>说明</th><th>操作</th>
+    </tr>
+  </thead>
+  <tbody id="disp-body"></tbody>
+</table>
+
+<h3>上传新分发器</h3>
+<form id="upload-form" class="form">
+  <div class="row">
+    <label>名称</label>
+    <input id="up-name" placeholder="如：雨天队分发器" />
+  </div>
+  <div class="row">
+    <label>文件（.py）</label>
+    <input id="up-file" type="file" accept=".py" required />
+    <span class="hint">需实现 <code>dispatch(boss, ctx)</code> 函数</span>
+  </div>
+  <div class="row actions">
+    <button type="submit">⬆ 上传</button>
+    <span id="up-status" class="status"></span>
+  </div>
+</form>
+
+<div class="row actions">
+  <a class="btn" href="/api/dispatchers/template">⬇ 下载分发器模板</a>
+</div>
+
+<script src="{{ url_for('static', filename='dispatchers.js') }}"></script>
+{% endblock %}
