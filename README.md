@@ -166,17 +166,28 @@ pokemmo_alpha/
 **<span lang="zh">仪表盘</span> <span lang="en">Dashboard</span>**
 ![仪表盘 Dashboard](docs/screenshots/panel_dashboard.png)
 
-**<span lang="zh">关于页</span> <span lang="en">About</span>**
-![关于页 About](docs/screenshots/panel_about.png)
 
 **<span lang="zh">头目源管理</span> <span lang="en">Source Management</span>**
 ![头目源 Sources](docs/screenshots/panel_sources.png)
 
-**<span lang="zh">调试页</span> <span lang="en">Debug</span>**
+**<span lang="zh">监控定时任务</span> <span lang="en">Scheduler</span>**
+![监控定时任务 Scheduler](docs/screenshots/panel_scheduler.png)
+
+**<span lang="zh">调试页 </span> <span lang="en">Debug</span>**
 ![调试页 Debug](docs/screenshots/panel_debug.png)
 
-**<span lang="zh">定时任务</span> <span lang="en">Scheduler</span>**
-![定时任务 Scheduler](docs/screenshots/panel_scheduler.png)
+**<span lang="zh">决策器 </span> <span lang="en">Strategy-maker</span>**
+![决策器 Strategy-maker](docs/screenshots/panel_Strategy-maker.png)
+
+**<span lang="zh">分发渠道 </span> <span lang="en">msg channel</span>**
+![分发渠 Msg channel](docs/screenshots/panel_msgchannel.png)
+
+**<span lang="zh">日志 </span> <span lang="en">Log</span>**
+![日志 Log](docs/screenshots/panel_Log.png)
+
+**<span lang="zh">关于页</span> <span lang="en">About</span>**
+![关于页 About](docs/screenshots/panel_about.png)
+
 
 ### <span lang="zh">默认队伍配置</span> <span lang="en">Default Team Configuration</span>
 
