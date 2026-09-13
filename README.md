@@ -6,16 +6,8 @@
   <span lang="en">Multi-source Monitor · Vote · Cross-source Dedup · Decide · Dispatch</span>
 </p>
 
-<p align="center">
-  <a href="#-简介-introduction"><span lang="zh">简介</span> <span lang="en">Introduction</span></a> •
-  <a href="#-运行原理-architecture"><span lang="zh">运行原理</span> <span lang="en">Architecture</span></a> •
-  <a href="#-截图-screenshots"><span lang="zh">截图</span> <span lang="en">Screenshots</span></a> •
-  <a href="#-部署-deployment"><span lang="zh">部署</span> <span lang="en">Deployment</span></a> •
-  <a href="#-接入指南-plugin-guide"><span lang="zh">接入指南</span> <span lang="en">Plugin Guide</span></a> •
-  <a href="#-适配器开发-adapter-development"><span lang="zh">适配器开发</span> <span lang="en">Adapter Dev</span></a> •
-  <a href="#-默认队伍-default-team"><span lang="zh">默认队伍</span> <span lang="en">Default Team</span></a> •
-  <a href="#-致谢-credits"><span lang="zh">致谢</span> <span lang="en">Credits</span></a>
-</p>
+
+
 
 ---
 
@@ -88,8 +80,8 @@ flowchart TB
     end
 
     Sources --> C1
-    C1 -->|<span lang='zh'>任意命中即入裁决（无需等齐多源）</span> <span lang='en'>Any hit enters resolution (no wait for all)</span>| C2
-    C2 -->|<span lang='zh'>裁决胜出（冲突时计票）</span> <span lang='en'>Winner (count only on conflict)</span>| C3
+    C1 -->|<span lang='zh'>任意命中即入裁决（无需等齐多源）</span> <span lang='en'>Any hit enters resolution no wait for all</span>| C2
+    C2 -->|<span lang='zh'>裁决胜出（冲突时计票）</span> <span lang='en'>Winner count only on conflict</span>| C3
     C3 -->|<span lang='zh'>去重后</span> <span lang='en'>Deduped</span>| D2
     D2 -->|<span lang='zh'>调用打法引擎</span> <span lang='en'>calls engine</span>| D1
     D1 --> Output
