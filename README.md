@@ -23,13 +23,13 @@
 
 <span lang="zh">
 
-**Alpha 分发决策面板** 是一个 Pokemmo 头目（Alpha）自动监控与播报系统。它会同时盯着多个数据源，通过投票裁决判断哪个头目信息是可信的，跨源去重避免重复推送，再由可插拔的决策器生成打法推荐，最终分发到你配置的各个渠道（WxPusher、Webhook 等）。
+**Alpha 分发决策面板** 是一个 Pokemmo 头目（Alpha）自动监控与播报系统。它会同时盯着多个数据源，通过投票裁决判断哪个头目信息是可信的，跨源去重避免重复推送，再由打法引擎生成打法推荐、经可插拔的决策器（分发器）分发，最终送达你配置的各个渠道（WxPusher、Webhook 等）。
 
 核心特性：
 - **多源并发监控** —— 同时轮询多个数据源，一个挂了不影响其他
 - **投票裁决机制** —— 多源结果不一致时，按内容指纹投票，多数胜出
 - **跨源全局去重** —— 同一头目无论被几个源报到，只推一次
-- **可插拔决策器** —— 打法引擎可替换、可扩展，支持上传自定义分发器
+- **可插拔决策器** —— 官方打法引擎之上的分发器插槽，可替换、可扩展，支持上传自定义分发器
 - **中英双语** —— 面板、推送内容均支持中文 / 英文 / 双语切换
 - **Web 管理面板** —— Flask + 原生 JS SPA，含调试、定时、日志等分页
 
@@ -37,13 +37,13 @@
 
 <span lang="en">
 
-The **Alpha Dispatch Decision Panel** is an automated Pokemmo alpha-boss monitoring and broadcasting system. It watches multiple data sources concurrently, uses voting to determine which alpha report is trustworthy, deduplicates across sources to avoid duplicate pushes, then uses pluggable deciders to generate strategy recommendations and dispatches to your configured channels (WxPusher, Webhook, etc.).
+The **Alpha Dispatch Decision Panel** is an automated Pokemmo alpha-boss monitoring and broadcasting system. It watches multiple data sources concurrently, uses voting to determine which alpha report is trustworthy, deduplicates across sources to avoid duplicate pushes, then the strategy engine generates strategy recommendations, which are dispatched through the pluggable decider (dispatcher) to your configured channels (WxPusher, Webhook, etc.).
 
 Key features:
 - **Multi-source concurrent monitoring** — polls multiple sources at once; one down doesn't affect others
 - **Voting mechanism** — when sources disagree, content fingerprint voting decides the winner
 - **Cross-source global dedup** — same alpha reported by multiple sources → pushed only once
-- **Pluggable deciders** — strategy engine is replaceable & extensible; upload custom dispatchers
+- **Pluggable deciders** — dispatcher slot on top of the official strategy engine; replaceable & extensible; upload custom dispatchers
 - **Bilingual support** — panel & push content support Chinese / English / bilingual mode
 - **Web management panel** — Flask + vanilla JS SPA with debug, scheduler, logs pages
 
@@ -90,9 +90,9 @@ flowchart TB
     Sources --> C1
     C1 -->|<span lang='zh'>所有命中结果</span> <span lang='en'>All hit results</span>| C2
     C2 -->|<span lang='zh'>投票胜出</span> <span lang='en'>Winner</span>| C3
-    C3 -->|<span lang='zh'>去重后</span> <span lang='en'>Deduped</span>| D1
-    D1 --> D2
-    D2 --> Output
+    C3 -->|<span lang='zh'>去重后</span> <span lang='en'>Deduped</span>| D2
+    D2 -->|<span lang='zh'>调用打法引擎</span> <span lang='en'>calls engine</span>| D1
+    D1 --> Output
     Core -.->|<span lang='zh'>状态/控制</span> <span lang='en'>Status/Control</span>| Panel
 ```
 
@@ -103,7 +103,7 @@ flowchart TB
 | ① <span lang="zh">多源监控</span> <span lang="en">Monitor</span> | <span lang="zh">并发轮询所有已启用数据源，超时/报错的源直接跳过，不阻塞其他源</span> <span lang="en">Poll all enabled sources concurrently; timeout/error sources are skipped without blocking others</span> |
 | ② <span lang="zh">投票裁决</span> <span lang="en">Vote</span> | <span lang="zh">多源结果按「图鉴ID+特性+技能」算指纹分组计票，得票最多者胜出；平票按时间最新→优先级最小兜底</span> <span lang="en">Group results by fingerprint (dex ID + ability + moves), majority wins; tie-break: newest timestamp → lowest priority</span> |
 | ③ <span lang="zh">跨源去重</span> <span lang="en">Dedupe</span> | <span lang="zh">全局去重键 = 图鉴号 + 时段，同一头目在存活期内（约 75 分钟）只推一次</span> <span lang="en">Global dedup key = dex ID + time slot; same alpha pushed once per lifespan (~75 min)</span> |
-| ④ <span lang="zh">决策</span> <span lang="en">Decide</span> | <span lang="zh">由决策器（Strategy Engine）生成打法推荐：队伍选择、配招顺序、干扰技判定等</span> <span lang="en">Decider (Strategy Engine) generates strategy: team selection, move order, status-move detection, etc.</span> |
+| ④ <span lang="zh">决策</span> <span lang="en">Decide</span> | <span lang="zh">由打法引擎（Strategy Engine）生成打法推荐：队伍选择、配招顺序、干扰技判定等；可插拔的决策器(分发器)负责选语言、调用引擎并输出</span> <span lang="en">Strategy Engine generates strategy: team selection, move order, status-move detection, etc.; the pluggable decider (dispatcher) selects language, calls the engine, and outputs</span> |
 | ⑤ <span lang="zh">分发</span> <span lang="en">Dispatch</span> | <span lang="zh">推送到所有已启用渠道（WxPusher/Webhook/ServerChan），任一成功即算完成</span> <span lang="en">Push to all enabled channels; any single success counts as delivered</span> |
 
 ### <span lang="zh">目录结构</span> <span lang="en">Directory Structure</span>
@@ -445,6 +445,8 @@ sources:
 3. 面板 → 决策器 → 上传，启用后设为当前
 4. 抛异常不会炸——面板会回退到内置决策器并记日志
 
+> 注意：面板菜单里叫"决策器"的其实就是 `panel/dispatchers/*.py` 这个**分发器插槽**。`default_dispatcher` 只是 1 行转发壳，真正的打法/渲染是在 `src/strategy/engine.py`（打法引擎）里完成的。自定义分发器一般先调引擎生成报告，再在末尾追加你自己的内容（见下例）。
+
 </span>
 
 <span lang="en">
@@ -455,6 +457,8 @@ sources:
 2. `boss` is normalized alpha data, `ctx` contains `pokedex`, `rules`, `langs`
 3. Panel → Deciders → Upload, enable it, set as active
 4. Raising is safe — panel falls back to built-in decider and logs error
+
+> Note: the panel's "Deciders" menu is really the **dispatcher slot** (`panel/dispatchers/*.py`). `default_dispatcher` is just a 1-line forwarder; the actual strategy/rendering lives in `src/strategy/engine.py` (the strategy engine). A custom dispatcher normally calls the engine to build the report, then appends its own content (see example below).
 
 </span>
 
