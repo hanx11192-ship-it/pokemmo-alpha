@@ -1,0 +1,28 @@
+[package]
+name = "alpha-scheduler"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+alpha-core.workspace = true
+alpha-sources.workspace = true
+alpha-strategy.workspace = true
+alpha-notify.workspace = true
+alpha-store.workspace = true
+alpha-plugin.workspace = true
+
+tokio.workspace = true
+async-trait.workspace = true
+chrono.workspace = true
+chrono-tz.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+tempfile = "3"

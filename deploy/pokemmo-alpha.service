@@ -1,0 +1,44 @@
+[Unit]
+Description=Pokemmo Alpha Dispatch Panel
+Documentation=https://github.com/hanx11192-ship-it/pokemmo-alpha
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+# 工作目录与二进制路径（install.sh 会按 --prefix 同步改写）
+WorkingDirectory=/opt/pokemmo_alpha
+ExecStart=/opt/pokemmo_alpha/bin/alpha-server
+
+# 前端资源。二进制旁边的 web/ 目录也能被自动探测到，但显式指定更稳 ——
+# 部署时若是手工挪过目录，自动探测会静默失效（表现为白屏）。
+Environment=ALPHA_WEB_ROOT=/opt/pokemmo_alpha/web
+
+# 监听端口与地址（默认 5703；用 install.sh --port 改会同步改这里）
+Environment=PORT=5703
+Environment=HOST=0.0.0.0
+
+# 数据与配置目录。
+# data/panel.db 首次启动自动建表建库；已存在的库原样接管。
+Environment=DATA_DIR=/opt/pokemmo_alpha/data
+Environment=CONFIG_DIR=/opt/pokemmo_alpha/config
+Environment=ENV_FILE=/opt/pokemmo_alpha/panel.env
+
+# 会话密钥。**必须在 panel.env 里**，没有默认值、缺失或太弱就拒绝启动
+#（install.sh 会自动生成）。
+EnvironmentFile=/opt/pokemmo_alpha/panel.env
+
+# 日志级别。排查问题临时调：RUST_LOG=alpha_server=debug
+Environment=RUST_LOG=alpha_server=info,tower_http=info,warn
+
+Restart=always
+RestartSec=5
+User=root
+
+# 日志落到文件 panel.log；journalctl -u pokemmo-alpha 同样可看。
+StandardOutput=append:/opt/pokemmo_alpha/panel.log
+StandardError=append:/opt/pokemmo_alpha/panel.log
+
+[Install]
+WantedBy=multi-user.target

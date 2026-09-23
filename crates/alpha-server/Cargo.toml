@@ -1,0 +1,54 @@
+[package]
+name = "alpha-server"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+alpha-core.workspace = true
+alpha-strategy.workspace = true
+alpha-sources.workspace = true
+alpha-notify.workspace = true
+alpha-store.workspace = true
+alpha-plugin.workspace = true
+alpha-scheduler.workspace = true
+
+axum.workspace = true
+tower.workspace = true
+tower-http.workspace = true
+tokio.workspace = true
+
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml.workspace = true
+
+chrono.workspace = true
+chrono-tz.workspace = true
+
+# ---- 鉴权 ----
+# hmac+sha2 用于会话签名；argon2 用于新写入的密码哈希；
+# scrypt/pbkdf2 只为**校验** werkzeug 生成的历史哈希（现网 users 表里就有）。
+hmac.workspace = true
+sha2.workspace = true
+sha1.workspace = true
+base64.workspace = true
+argon2.workspace = true
+scrypt.workspace = true
+pbkdf2.workspace = true
+subtle.workspace = true
+cookie.workspace = true
+rand.workspace = true
+
+md-5.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+[dev-dependencies]
+tempfile = "3"
+# 集成测试要真的发请求拿响应体，需要 oneshot 与 body 读取工具
+http-body-util = "0.1"
+# 日志清理的用例需要造「几天前」的记录，而 `Store::log` 只会用当前时间。
+# 直接开连接手写 INSERT 是唯一办法。
+rusqlite = { workspace = true }

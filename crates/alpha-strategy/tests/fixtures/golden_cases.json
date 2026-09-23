@@ -1,0 +1,1363 @@
+[
+ {
+  "tag": "无性别_自爆磁怪",
+  "input": {
+   "name": "自爆磁怪",
+   "ability": "分析",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": null,
+   "period": "早头(约止于09:00)",
+   "location": "神奥 · 道路 205",
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": "测试员",
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 462,
+   "ability_id": 148,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "自爆磁怪",
+   "canonical_ability": "分析"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n自爆磁怪(分析)-无性别\n神奥 · 道路 205\n技能: 十万伏特\n报点人: 测试员"
+  }
+ },
+ {
+  "tag": "单性别_雄性",
+  "input": {
+   "name": "艾路雷朵",
+   "ability": "正义之心",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": 100.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 475,
+   "ability_id": 154,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "艾路雷朵",
+   "canonical_ability": "正义之心"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n艾路雷朵(正义之心)-100.0%公\n未知地点\n技能: 十万伏特\n打法推荐：\n沙奈朵：神秘守护, 临别礼物\n长耳兔：掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "单性别_雌性",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": 0.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(同步)-0.0%公\n未知地点\n技能: 十万伏特"
+  }
+ },
+ {
+  "tag": "双性别_无威胁",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(同步)-50.0%公\n未知地点\n技能: 十万伏特\n打法推荐：\n沙奈朵：神秘守护, 临别礼物\n长耳兔：掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "双性别_防御技",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "电磁波"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    86
+   ],
+   "canonical_moves": [
+    "电磁波"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(同步)-50.0%公\n未知地点\n技能: 电磁波\n打法推荐：\n沙奈朵：挑衅, 临别礼物\n长耳兔：掉包, 拍手, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "双性别_强化技",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "龙之舞"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    349
+   ],
+   "canonical_moves": [
+    "龙之舞"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(同步)-50.0%公\n未知地点\n技能: 龙之舞\n打法推荐：\n沙奈朵：挑衅, 临别礼物\n长耳兔：掉包, 拍手, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "双性别_需换特性",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "迟钝",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 12,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "迟钝"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(迟钝)-50.0%公\n未知地点\n技能: 十万伏特\n打法推荐：\n沙奈朵：特性互换, 神秘守护, 临别礼物\n长耳兔：掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "双性别_加速换特性",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "加速",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 3,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "加速"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(加速)-50.0%公\n未知地点\n技能: 十万伏特\n打法推荐：\n沙奈朵：特性互换, 神秘守护, 临别礼物\n长耳兔：掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "双性别_奇迹皮肤",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "奇迹皮肤",
+   "moves": [
+    "电磁波"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 147,
+   "move_ids": [
+    86
+   ],
+   "canonical_moves": [
+    "电磁波"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "奇迹皮肤"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(奇迹皮肤)-50.0%公\n未知地点\n技能: 电磁波\n打法推荐：\n沙奈朵：特性互换, 挑衅, 临别礼物\n长耳兔：拍手, 掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "双性别_魔法镜",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "魔法镜",
+   "moves": [
+    "电磁波"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 156,
+   "move_ids": [
+    86
+   ],
+   "canonical_moves": [
+    "电磁波"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "魔法镜"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(魔法镜)-50.0%公\n未知地点\n技能: 电磁波\n打法推荐：\n沙奈朵：特性互换, 挑衅, 临别礼物\n长耳兔：拍手, 掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "双性别_冰冻技",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "冰冻光束"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    58
+   ],
+   "canonical_moves": [
+    "冰冻光束"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(同步)-50.0%公\n未知地点\n技能: 冰冻光束\n打法推荐：\n沙奈朵：神秘守护, 临别礼物\n长耳兔：掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "双性别_麻痹技",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(同步)-50.0%公\n未知地点\n技能: 十万伏特\n打法推荐：\n沙奈朵：神秘守护, 临别礼物\n长耳兔：掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "双性别_冰冻麻痹",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "冰冻光束",
+    "十万伏特"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    58,
+    85
+   ],
+   "canonical_moves": [
+    "冰冻光束",
+    "十万伏特"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(同步)-50.0%公\n未知地点\n技能: 冰冻光束, 十万伏特\n打法推荐：\n沙奈朵：神秘守护, 临别礼物\n长耳兔：掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "双性别_回复技",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "自我再生"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    105
+   ],
+   "canonical_moves": [
+    "自我再生"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(同步)-50.0%公\n未知地点\n技能: 自我再生\n打法推荐：\n沙奈朵：临别礼物\n长耳兔：掉包, 治愈之愿\n呆壳兽：哈欠, 中转\n图图犬：回复封锁, 搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "双性别_先制技",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "子弹拳"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    418
+   ],
+   "canonical_moves": [
+    "子弹拳"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(同步)-50.0%公\n未知地点\n技能: 子弹拳\n打法推荐：\n沙奈朵：临别礼物\n长耳兔：掉包, 治愈之愿\n呆壳兽：哈欠, 中转\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "双性别_先制回复",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "子弹拳",
+    "自我再生"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    418,
+    105
+   ],
+   "canonical_moves": [
+    "子弹拳",
+    "自我再生"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(同步)-50.0%公\n未知地点\n技能: 子弹拳, 自我再生\n打法推荐：\n沙奈朵：临别礼物\n长耳兔：掉包, 治愈之愿\n呆壳兽：哈欠, 中转\n图图犬：回复封锁, 搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "恶作剧_勾魂眼",
+  "input": {
+   "name": "勾魂眼",
+   "ability": "恶作剧之心",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 302,
+   "ability_id": 158,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "勾魂眼",
+   "canonical_ability": "恶作剧之心"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n勾魂眼(恶作剧之心)-50.0%公\n未知地点\n技能: 十万伏特\n打法推荐：\n索罗亚克：临别礼物\n长耳兔：掉包, 识破, 治愈之愿\n图图犬：搏命\n月亮伊布：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "恶作剧_冰冻麻痹",
+  "input": {
+   "name": "勾魂眼",
+   "ability": "恶作剧之心",
+   "moves": [
+    "冰冻光束",
+    "十万伏特"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 302,
+   "ability_id": 158,
+   "move_ids": [
+    58,
+    85
+   ],
+   "canonical_moves": [
+    "冰冻光束",
+    "十万伏特"
+   ],
+   "canonical_name": "勾魂眼",
+   "canonical_ability": "恶作剧之心"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n勾魂眼(恶作剧之心)-50.0%公\n未知地点\n技能: 冰冻光束, 十万伏特\n打法推荐：\n索罗亚克：临别礼物\n长耳兔：掉包, 识破, 治愈之愿\n图图犬：搏命\n月亮伊布：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "恶作剧_利欧路",
+  "input": {
+   "name": "利欧路",
+   "ability": "恶作剧之心",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 447,
+   "ability_id": 158,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "利欧路",
+   "canonical_ability": "恶作剧之心"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n利欧路(恶作剧之心)-50.0%公\n未知地点\n技能: 十万伏特\n打法推荐：\n索罗亚克：临别礼物\n长耳兔：掉包, 治愈之愿\n图图犬：搏命\n月亮伊布：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "恶作剧_黑暗鸦",
+  "input": {
+   "name": "黑暗鸦",
+   "ability": "恶作剧之心",
+   "moves": [
+    "电磁波"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 198,
+   "ability_id": 158,
+   "move_ids": [
+    86
+   ],
+   "canonical_moves": [
+    "电磁波"
+   ],
+   "canonical_name": "黑暗鸦",
+   "canonical_ability": "恶作剧之心"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n黑暗鸦(恶作剧之心)-50.0%公\n未知地点\n技能: 电磁波\n打法推荐：\n索罗亚克：挑衅, 临别礼物\n长耳兔：掉包, 拍手, 治愈之愿\n图图犬：搏命\n月亮伊布：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "恶作剧_风妖精",
+  "input": {
+   "name": "风妖精",
+   "ability": "恶作剧之心",
+   "moves": [
+    "龙之舞"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 547,
+   "ability_id": 158,
+   "move_ids": [
+    349
+   ],
+   "canonical_moves": [
+    "龙之舞"
+   ],
+   "canonical_name": "风妖精",
+   "canonical_ability": "恶作剧之心"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n风妖精(恶作剧之心)-50.0%公\n未知地点\n技能: 龙之舞\n打法推荐：\n索罗亚克：挑衅, 临别礼物\n长耳兔：掉包, 拍手, 治愈之愿\n图图犬：搏命\n月亮伊布：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "勾魂眼_非恶作剧",
+  "input": {
+   "name": "勾魂眼",
+   "ability": "锐利目光",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 302,
+   "ability_id": 51,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "勾魂眼",
+   "canonical_ability": "锐利目光"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n勾魂眼(锐利目光)-50.0%公\n未知地点\n技能: 十万伏特\n打法推荐：\n索罗亚克：临别礼物\n长耳兔：掉包, 识破, 治愈之愿\n图图犬：搏命\n月亮伊布：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "巨牙鲨_加速挑衅",
+  "input": {
+   "name": "巨牙鲨",
+   "ability": "加速",
+   "moves": [
+    "挑衅",
+    "咬碎"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 319,
+   "ability_id": 3,
+   "move_ids": [
+    269,
+    242
+   ],
+   "canonical_moves": [
+    "挑衅",
+    "咬碎"
+   ],
+   "canonical_name": "巨牙鲨",
+   "canonical_ability": "加速"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n巨牙鲨(加速)-50.0%公\n未知地点\n技能: 挑衅, 咬碎\n打法推荐：\n沙奈朵：特性互换, 挑衅, 临别礼物\n长耳兔：拍手, 掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "巨牙鲨_加速近身战",
+  "input": {
+   "name": "巨牙鲨",
+   "ability": "加速",
+   "moves": [
+    "挑衅",
+    "近身战"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 319,
+   "ability_id": 3,
+   "move_ids": [
+    269,
+    370
+   ],
+   "canonical_moves": [
+    "挑衅",
+    "近身战"
+   ],
+   "canonical_name": "巨牙鲨",
+   "canonical_ability": "加速"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n巨牙鲨(加速)-50.0%公\n未知地点\n技能: 挑衅, 近身战\n打法推荐：\n沙奈朵：特性互换, 挑衅, 临别礼物\n长耳兔：拍手, 掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "天气_大晴天叶绿素",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "叶绿素",
+   "moves": [
+    "大晴天"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 34,
+   "move_ids": [
+    241
+   ],
+   "canonical_moves": [
+    "大晴天"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "叶绿素"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(叶绿素)-50.0%公\n未知地点\n技能: 大晴天\n打法推荐：\n沙奈朵：特性互换, 临别礼物\n长耳兔：掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "天气_求雨悠游自如",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "悠游自如",
+   "moves": [
+    "求雨"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 33,
+   "move_ids": [
+    240
+   ],
+   "canonical_moves": [
+    "求雨"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "悠游自如"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(悠游自如)-50.0%公\n未知地点\n技能: 求雨\n打法推荐：\n沙奈朵：特性互换, 临别礼物\n长耳兔：掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "天气_沙暴沙隐",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "沙隐",
+   "moves": [
+    "沙暴"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 8,
+   "move_ids": [
+    201
+   ],
+   "canonical_moves": [
+    "沙暴"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "沙隐"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(沙隐)-50.0%公\n未知地点\n技能: 沙暴\n打法推荐：\n沙奈朵：特性互换, 临别礼物\n长耳兔：掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "天气_冰雹冰冻之躯",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "冰冻之躯",
+   "moves": [
+    "冰雹"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 115,
+   "move_ids": [
+    258
+   ],
+   "canonical_moves": [
+    "冰雹"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "冰冻之躯"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(冰冻之躯)-50.0%公\n未知地点\n技能: 冰雹\n打法推荐：\n沙奈朵：特性互换, 临别礼物\n长耳兔：掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "天气_有技能无特性",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "大晴天"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    241
+   ],
+   "canonical_moves": [
+    "大晴天"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(同步)-50.0%公\n未知地点\n技能: 大晴天\n打法推荐：\n沙奈朵：临别礼物\n长耳兔：掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "满格_挑衅换特性冰冻",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "迟钝",
+   "moves": [
+    "电磁波",
+    "冰冻光束"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 12,
+   "move_ids": [
+    86,
+    58
+   ],
+   "canonical_moves": [
+    "电磁波",
+    "冰冻光束"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "迟钝"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(迟钝)-50.0%公\n未知地点\n技能: 电磁波, 冰冻光束\n打法推荐：\n沙奈朵：挑衅, 特性互换, 临别礼物\n长耳兔：拍手, 掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "英文_完整",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": "神奥 · 道路 205",
+   "location_en": "Sinnoh · Route 205",
+   "egg_groups": [
+    "不定形"
+   ],
+   "egg_groups_en": null,
+   "reporter": "Tester",
+   "extra_lines": null,
+   "langs": [
+    "en"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "en": "早头(约止于09:00)\nGardevoir(Synchronize)-(Amorphous)-50.0% male\nSinnoh · Route 205\nMoves: Thunderbolt\nStrategy:\nGardevoir: Safeguard, Memento\nLopunny: Switcheroo, Healing Wish\nSmeargle: Final Gambit\nSlowbro: Yawn, Pivot\nReporter: Tester"
+  }
+ },
+ {
+  "tag": "英文_蛋组无源字段",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": [
+    "不定形",
+    "怪兽"
+   ],
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "en"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "en": "早头(约止于09:00)\nGardevoir(Synchronize)-(Amorphous, Monster)-50.0% male\nUnknown\nMoves: Thunderbolt\nStrategy:\nGardevoir: Safeguard, Memento\nLopunny: Switcheroo, Healing Wish\nSmeargle: Final Gambit\nSlowbro: Yawn, Pivot"
+  }
+ },
+ {
+  "tag": "双语",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "电磁波"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh",
+    "en"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    86
+   ],
+   "canonical_moves": [
+    "电磁波"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(同步)-50.0%公\n未知地点\n技能: 电磁波\n打法推荐：\n沙奈朵：挑衅, 临别礼物\n长耳兔：掉包, 拍手, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转",
+   "en": "早头(约止于09:00)\nGardevoir(Synchronize)-50.0% male\nUnknown\nMoves: Thunder Wave\nStrategy:\nGardevoir: Taunt, Memento\nLopunny: Switcheroo, Encore, Healing Wish\nSmeargle: Final Gambit\nSlowbro: Yawn, Pivot"
+  }
+ },
+ {
+  "tag": "附加行",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": [
+    [
+     "数据来源: Alphapedia",
+     "Source: Alphapedia"
+    ]
+   ],
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(同步)-50.0%公\n未知地点\n技能: 十万伏特\n数据来源: Alphapedia\n打法推荐：\n沙奈朵：神秘守护, 临别礼物\n长耳兔：掉包, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "附加行_单性别",
+  "input": {
+   "name": "自爆磁怪",
+   "ability": "分析",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": null,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": [
+    [
+     "秘传技需求: 冲浪",
+     "HMs required: Surf"
+    ]
+   ],
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 462,
+   "ability_id": 148,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "自爆磁怪",
+   "canonical_ability": "分析"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n自爆磁怪(分析)-无性别\n未知地点\n技能: 十万伏特\n秘传技需求: 冲浪"
+  }
+ },
+ {
+  "tag": "波浪号",
+  "input": {
+   "name": "自爆磁怪",
+   "ability": "分析",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": null,
+   "period": "20:00~次日02:00",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 462,
+   "ability_id": 148,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "自爆磁怪",
+   "canonical_ability": "分析"
+  },
+  "output": {
+   "zh": "20:00-次日02:00\n自爆磁怪(分析)-无性别\n未知地点\n技能: 十万伏特"
+  }
+ },
+ {
+  "tag": "回复封锁",
+  "input": {
+   "name": "沙奈朵",
+   "ability": "同步",
+   "moves": [
+    "睡觉"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 282,
+   "ability_id": 28,
+   "move_ids": [
+    156
+   ],
+   "canonical_moves": [
+    "睡觉"
+   ],
+   "canonical_name": "沙奈朵",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n沙奈朵(同步)-50.0%公\n未知地点\n技能: 睡觉\n打法推荐：\n沙奈朵：临别礼物\n长耳兔：掉包, 治愈之愿\n呆壳兽：哈欠, 中转\n图图犬：回复封锁, 搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "识破_诅咒娃娃",
+  "input": {
+   "name": "诅咒娃娃",
+   "ability": "同步",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 354,
+   "ability_id": 28,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "诅咒娃娃",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n诅咒娃娃(同步)-50.0%公\n未知地点\n技能: 十万伏特\n打法推荐：\n沙奈朵：神秘守护, 临别礼物\n长耳兔：掉包, 识破, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ },
+ {
+  "tag": "识破_怨影娃娃",
+  "input": {
+   "name": "怨影娃娃",
+   "ability": "同步",
+   "moves": [
+    "十万伏特"
+   ],
+   "male": 50.0,
+   "period": "早头(约止于09:00)",
+   "location": null,
+   "location_en": null,
+   "egg_groups": null,
+   "egg_groups_en": null,
+   "reporter": null,
+   "extra_lines": null,
+   "langs": [
+    "zh"
+   ],
+   "pokedex_id": 353,
+   "ability_id": 28,
+   "move_ids": [
+    85
+   ],
+   "canonical_moves": [
+    "十万伏特"
+   ],
+   "canonical_name": "怨影娃娃",
+   "canonical_ability": "同步"
+  },
+  "output": {
+   "zh": "早头(约止于09:00)\n怨影娃娃(同步)-50.0%公\n未知地点\n技能: 十万伏特\n打法推荐：\n沙奈朵：神秘守护, 临别礼物\n长耳兔：掉包, 识破, 治愈之愿\n图图犬：搏命\n呆壳兽：哈欠, 中转"
+  }
+ }
+]

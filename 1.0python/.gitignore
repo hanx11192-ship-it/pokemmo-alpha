@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.cache/
+logs/
+data/state.json
+data/state.json.tmp
+.venv/
+panel/panel.db
+pokemmo_alpha.zip
+
+# 运行日志（不入库）
+panel.log
+*.log

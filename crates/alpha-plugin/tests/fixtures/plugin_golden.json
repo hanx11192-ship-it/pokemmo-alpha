@@ -1,0 +1,1156 @@
+[
+  {
+    "name": "clown_exact_set",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "挥指功",
+      "珍藏"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      118,
+      387
+    ],
+    "result_zh": {
+      "score": -1,
+      "label": "小丑头",
+      "label_en": "Clown Alpha",
+      "detail": "恰好只带挥指功+珍藏，前 6 回合无法正常出手",
+      "factors": [
+        "clown_set:挥指功+珍藏"
+      ]
+    },
+    "result_en": {
+      "score": -1,
+      "label": "小丑头",
+      "label_en": "Clown Alpha",
+      "detail": "恰好只带挥指功+珍藏，前 6 回合无法正常出手",
+      "factors": [
+        "clown_set:挥指功+珍藏"
+      ]
+    }
+  },
+  {
+    "name": "clown_reversed_order",
+    "pokemon": "大嘴鸥",
+    "ability": "锐利目光",
+    "moves": [
+      "珍藏",
+      "挥指功"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 279,
+    "move_ids": [
+      387,
+      118
+    ],
+    "result_zh": {
+      "score": -1,
+      "label": "小丑头",
+      "label_en": "Clown Alpha",
+      "detail": "恰好只带挥指功+珍藏，前 6 回合无法正常出手",
+      "factors": [
+        "clown_set:挥指功+珍藏"
+      ]
+    },
+    "result_en": {
+      "score": -1,
+      "label": "小丑头",
+      "label_en": "Clown Alpha",
+      "detail": "恰好只带挥指功+珍藏，前 6 回合无法正常出手",
+      "factors": [
+        "clown_set:挥指功+珍藏"
+      ]
+    }
+  },
+  {
+    "name": "clown_superset_misses",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "挥指功",
+      "珍藏",
+      "水枪"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      118,
+      387,
+      55
+    ],
+    "result_zh": {
+      "score": 0,
+      "label": "白给头",
+      "detail": "无威胁因子，脚本可稳定推进",
+      "factors": []
+    },
+    "result_en": {
+      "score": 0,
+      "label": "白给头",
+      "label_en": "No Threat",
+      "detail": "无威胁因子，脚本可稳定推进",
+      "factors": []
+    }
+  },
+  {
+    "name": "clown_subset_misses",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "挥指功",
+      "十万伏特"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      118,
+      85
+    ],
+    "result_zh": {
+      "score": 0,
+      "label": "白给头",
+      "detail": "无威胁因子，脚本可稳定推进",
+      "factors": []
+    },
+    "result_en": {
+      "score": 0,
+      "label": "白给头",
+      "label_en": "No Threat",
+      "detail": "无威胁因子，脚本可稳定推进",
+      "factors": []
+    }
+  },
+  {
+    "name": "base_crash_one",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "电磁波",
+      "十万伏特"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      86,
+      85
+    ],
+    "result_zh": {
+      "score": 1,
+      "label": "简单头",
+      "detail": "翻车技×1:电磁波",
+      "factors": [
+        "翻车技×1:电磁波"
+      ]
+    },
+    "result_en": {
+      "score": 1,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "翻车技×1:电磁波",
+      "factors": [
+        "翻车技×1:电磁波"
+      ]
+    }
+  },
+  {
+    "name": "base_crash_three",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "电磁波",
+      "催眠术",
+      "唱歌",
+      "十万伏特"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      86,
+      95,
+      47,
+      85
+    ],
+    "result_zh": {
+      "score": 3,
+      "label": "简单头",
+      "detail": "翻车技×3:唱歌/电磁波/催眠术",
+      "factors": [
+        "翻车技×3:唱歌/电磁波/催眠术"
+      ]
+    },
+    "result_en": {
+      "score": 3,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "翻车技×3:唱歌/电磁波/催眠术",
+      "factors": [
+        "翻车技×3:唱歌/电磁波/催眠术"
+      ]
+    }
+  },
+  {
+    "name": "base_away_two",
+    "pokemon": "大嘴鸥",
+    "ability": "锐利目光",
+    "moves": [
+      "飞翔",
+      "潜水",
+      "水枪"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 279,
+    "move_ids": [
+      19,
+      291,
+      55
+    ],
+    "result_zh": {
+      "score": 2,
+      "label": "简单头",
+      "detail": "离场技×2:潜水/飞翔",
+      "factors": [
+        "离场技×2:潜水/飞翔"
+      ]
+    },
+    "result_en": {
+      "score": 2,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "离场技×2:潜水/飞翔",
+      "factors": [
+        "离场技×2:潜水/飞翔"
+      ]
+    }
+  },
+  {
+    "name": "base_guard_one",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "守住",
+      "十万伏特"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      182,
+      85
+    ],
+    "result_zh": {
+      "score": 1,
+      "label": "简单头",
+      "detail": "防睡技×1:守住",
+      "factors": [
+        "防睡技×1:守住"
+      ]
+    },
+    "result_en": {
+      "score": 1,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "防睡技×1:守住",
+      "factors": [
+        "防睡技×1:守住"
+      ]
+    }
+  },
+  {
+    "name": "base_priority_two",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "音速拳",
+      "子弹拳",
+      "十万伏特"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      183,
+      418,
+      85
+    ],
+    "result_zh": {
+      "score": 2,
+      "label": "简单头",
+      "detail": "先手技×2:子弹拳/音速拳",
+      "factors": [
+        "先手技×2:子弹拳/音速拳"
+      ]
+    },
+    "result_en": {
+      "score": 2,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "先手技×2:子弹拳/音速拳",
+      "factors": [
+        "先手技×2:子弹拳/音速拳"
+      ]
+    }
+  },
+  {
+    "name": "base_all_categories",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "电磁波",
+      "飞翔",
+      "守住",
+      "音速拳",
+      "子弹拳"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      86,
+      19,
+      182,
+      183,
+      418
+    ],
+    "result_zh": {
+      "score": 5,
+      "label": "看脸头",
+      "detail": "翻车技×1:电磁波；离场技×1:飞翔；防睡技×1:守住；先手技×2:子弹拳/音速拳",
+      "factors": [
+        "翻车技×1:电磁波",
+        "离场技×1:飞翔",
+        "防睡技×1:守住",
+        "先手技×2:子弹拳/音速拳"
+      ]
+    },
+    "result_en": {
+      "score": 5,
+      "label": "看脸头",
+      "label_en": "RNG Alpha",
+      "detail": "翻车技×1:电磁波；离场技×1:飞翔；防睡技×1:守住；先手技×2:子弹拳/音速拳",
+      "factors": [
+        "翻车技×1:电磁波",
+        "离场技×1:飞翔",
+        "防睡技×1:守住",
+        "先手技×2:子弹拳/音速拳"
+      ]
+    }
+  },
+  {
+    "name": "base_no_threat",
+    "pokemon": "暴鲤龙",
+    "ability": "威吓",
+    "moves": [
+      "龙之舞",
+      "攀瀑",
+      "地震",
+      "冰之牙"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 130,
+    "move_ids": [
+      349,
+      127,
+      89,
+      null
+    ],
+    "result_zh": {
+      "score": 0,
+      "label": "白给头",
+      "detail": "无威胁因子，脚本可稳定推进",
+      "factors": []
+    },
+    "result_en": {
+      "score": 0,
+      "label": "白给头",
+      "label_en": "No Threat",
+      "detail": "无威胁因子，脚本可稳定推进",
+      "factors": []
+    }
+  },
+  {
+    "name": "talk_plus_crash",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "梦话",
+      "电磁波",
+      "十万伏特"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      214,
+      86,
+      85
+    ],
+    "result_zh": {
+      "score": 3,
+      "label": "简单头",
+      "detail": "翻车技×1:电磁波；梦话+翻车技:+2",
+      "factors": [
+        "翻车技×1:电磁波",
+        "梦话+翻车技:+2"
+      ]
+    },
+    "result_en": {
+      "score": 3,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "翻车技×1:电磁波；梦话+翻车技:+2",
+      "factors": [
+        "翻车技×1:电磁波",
+        "梦话+翻车技:+2"
+      ]
+    }
+  },
+  {
+    "name": "talk_plus_away",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "梦话",
+      "飞翔",
+      "十万伏特"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      214,
+      19,
+      85
+    ],
+    "result_zh": {
+      "score": 3,
+      "label": "简单头",
+      "detail": "离场技×1:飞翔；梦话+离场技:+2",
+      "factors": [
+        "离场技×1:飞翔",
+        "梦话+离场技:+2"
+      ]
+    },
+    "result_en": {
+      "score": 3,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "离场技×1:飞翔；梦话+离场技:+2",
+      "factors": [
+        "离场技×1:飞翔",
+        "梦话+离场技:+2"
+      ]
+    }
+  },
+  {
+    "name": "talk_plus_priority",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "梦话",
+      "音速拳",
+      "十万伏特"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      214,
+      183,
+      85
+    ],
+    "result_zh": {
+      "score": 2,
+      "label": "简单头",
+      "detail": "先手技×1:音速拳；梦话+先手技:+1",
+      "factors": [
+        "先手技×1:音速拳",
+        "梦话+先手技:+1"
+      ]
+    },
+    "result_en": {
+      "score": 2,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "先手技×1:音速拳；梦话+先手技:+1",
+      "factors": [
+        "先手技×1:音速拳",
+        "梦话+先手技:+1"
+      ]
+    }
+  },
+  {
+    "name": "talk_plus_heal",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "梦话",
+      "治愈铃声",
+      "十万伏特"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      214,
+      215,
+      85
+    ],
+    "result_zh": {
+      "score": 2,
+      "label": "简单头",
+      "detail": "梦话+自愈睡眠:+2",
+      "factors": [
+        "梦话+自愈睡眠:+2"
+      ]
+    },
+    "result_en": {
+      "score": 2,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "梦话+自愈睡眠:+2",
+      "factors": [
+        "梦话+自愈睡眠:+2"
+      ]
+    }
+  },
+  {
+    "name": "talk_plus_aromatherapy",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "梦话",
+      "芳香治疗",
+      "十万伏特"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      214,
+      312,
+      85
+    ],
+    "result_zh": {
+      "score": 2,
+      "label": "简单头",
+      "detail": "梦话+自愈睡眠:+2",
+      "factors": [
+        "梦话+自愈睡眠:+2"
+      ]
+    },
+    "result_en": {
+      "score": 2,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "梦话+自愈睡眠:+2",
+      "factors": [
+        "梦话+自愈睡眠:+2"
+      ]
+    }
+  },
+  {
+    "name": "talk_everything",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "梦话",
+      "电磁波",
+      "飞翔",
+      "音速拳",
+      "子弹拳",
+      "治愈铃声"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      214,
+      86,
+      19,
+      183,
+      418,
+      215
+    ],
+    "result_zh": {
+      "score": 11,
+      "label": "还有高手？！？",
+      "detail": "翻车技×1:电磁波；离场技×1:飞翔；先手技×2:子弹拳/音速拳；梦话+翻车技:+2；梦话+离场技:+2；梦话+先手技:+1；梦话+自愈睡眠:+2",
+      "factors": [
+        "翻车技×1:电磁波",
+        "离场技×1:飞翔",
+        "先手技×2:子弹拳/音速拳",
+        "梦话+翻车技:+2",
+        "梦话+离场技:+2",
+        "梦话+先手技:+1",
+        "梦话+自愈睡眠:+2"
+      ]
+    },
+    "result_en": {
+      "score": 11,
+      "label": "还有高手？！？",
+      "label_en": "Unrated",
+      "detail": "翻车技×1:电磁波；离场技×1:飞翔；先手技×2:子弹拳/音速拳；梦话+翻车技:+2；梦话+离场技:+2；梦话+先手技:+1；梦话+自愈睡眠:+2",
+      "factors": [
+        "翻车技×1:电磁波",
+        "离场技×1:飞翔",
+        "先手技×2:子弹拳/音速拳",
+        "梦话+翻车技:+2",
+        "梦话+离场技:+2",
+        "梦话+先手技:+1",
+        "梦话+自愈睡眠:+2"
+      ]
+    }
+  },
+  {
+    "name": "heal_without_talk",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "治愈铃声",
+      "十万伏特"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      215,
+      85
+    ],
+    "result_zh": {
+      "score": 0,
+      "label": "白给头",
+      "detail": "无威胁因子，脚本可稳定推进",
+      "factors": []
+    },
+    "result_en": {
+      "score": 0,
+      "label": "白给头",
+      "label_en": "No Threat",
+      "detail": "无威胁因子，脚本可稳定推进",
+      "factors": []
+    }
+  },
+  {
+    "name": "special_sharpedo_closecombat",
+    "pokemon": "巨牙鲨",
+    "ability": "粗糙皮肤",
+    "moves": [
+      "挑衅",
+      "近身战",
+      "水流喷射"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 319,
+    "move_ids": [
+      269,
+      370,
+      453
+    ],
+    "result_zh": {
+      "score": 3,
+      "label": "简单头",
+      "detail": "先手技×1:水流喷射；巨牙鲨+挑衅+近身战:+2",
+      "factors": [
+        "先手技×1:水流喷射",
+        "巨牙鲨+挑衅+近身战:+2"
+      ]
+    },
+    "result_en": {
+      "score": 3,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "先手技×1:水流喷射；巨牙鲨+挑衅+近身战:+2",
+      "factors": [
+        "先手技×1:水流喷射",
+        "巨牙鲨+挑衅+近身战:+2"
+      ]
+    }
+  },
+  {
+    "name": "special_sharpedo_crunch",
+    "pokemon": "巨牙鲨",
+    "ability": "粗糙皮肤",
+    "moves": [
+      "挑衅",
+      "咬碎",
+      "水流喷射"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 319,
+    "move_ids": [
+      269,
+      242,
+      453
+    ],
+    "result_zh": {
+      "score": 3,
+      "label": "简单头",
+      "detail": "先手技×1:水流喷射；巨牙鲨+挑衅+咬碎:+2",
+      "factors": [
+        "先手技×1:水流喷射",
+        "巨牙鲨+挑衅+咬碎:+2"
+      ]
+    },
+    "result_en": {
+      "score": 3,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "先手技×1:水流喷射；巨牙鲨+挑衅+咬碎:+2",
+      "factors": [
+        "先手技×1:水流喷射",
+        "巨牙鲨+挑衅+咬碎:+2"
+      ]
+    }
+  },
+  {
+    "name": "special_sharpedo_partial",
+    "pokemon": "巨牙鲨",
+    "ability": "粗糙皮肤",
+    "moves": [
+      "挑衅",
+      "水流喷射"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 319,
+    "move_ids": [
+      269,
+      453
+    ],
+    "result_zh": {
+      "score": 1,
+      "label": "简单头",
+      "detail": "先手技×1:水流喷射",
+      "factors": [
+        "先手技×1:水流喷射"
+      ]
+    },
+    "result_en": {
+      "score": 1,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "先手技×1:水流喷射",
+      "factors": [
+        "先手技×1:水流喷射"
+      ]
+    }
+  },
+  {
+    "name": "special_breloom_seedbomb",
+    "pokemon": "斗笠菇",
+    "ability": "孢子",
+    "moves": [
+      "音速拳",
+      "种子炸弹",
+      "蘑菇孢子"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 286,
+    "move_ids": [
+      183,
+      402,
+      147
+    ],
+    "result_zh": {
+      "score": 4,
+      "label": "看脸头",
+      "detail": "翻车技×1:蘑菇孢子；先手技×1:音速拳；斗笠菇+音速拳+种子炸弹:+2",
+      "factors": [
+        "翻车技×1:蘑菇孢子",
+        "先手技×1:音速拳",
+        "斗笠菇+音速拳+种子炸弹:+2"
+      ]
+    },
+    "result_en": {
+      "score": 4,
+      "label": "看脸头",
+      "label_en": "RNG Alpha",
+      "detail": "翻车技×1:蘑菇孢子；先手技×1:音速拳；斗笠菇+音速拳+种子炸弹:+2",
+      "factors": [
+        "翻车技×1:蘑菇孢子",
+        "先手技×1:音速拳",
+        "斗笠菇+音速拳+种子炸弹:+2"
+      ]
+    }
+  },
+  {
+    "name": "special_breloom_bulletseed",
+    "pokemon": "斗笠菇",
+    "ability": "孢子",
+    "moves": [
+      "音速拳",
+      "种子机关枪"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 286,
+    "move_ids": [
+      183,
+      331
+    ],
+    "result_zh": {
+      "score": 3,
+      "label": "简单头",
+      "detail": "先手技×1:音速拳；斗笠菇+音速拳+种子机关枪:+2",
+      "factors": [
+        "先手技×1:音速拳",
+        "斗笠菇+音速拳+种子机关枪:+2"
+      ]
+    },
+    "result_en": {
+      "score": 3,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "先手技×1:音速拳；斗笠菇+音速拳+种子机关枪:+2",
+      "factors": [
+        "先手技×1:音速拳",
+        "斗笠菇+音速拳+种子机关枪:+2"
+      ]
+    }
+  },
+  {
+    "name": "special_breloom_grassknot",
+    "pokemon": "斗笠菇",
+    "ability": "孢子",
+    "moves": [
+      "音速拳",
+      "打草结"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 286,
+    "move_ids": [
+      183,
+      447
+    ],
+    "result_zh": {
+      "score": 3,
+      "label": "简单头",
+      "detail": "先手技×1:音速拳；斗笠菇+音速拳+打草结:+2",
+      "factors": [
+        "先手技×1:音速拳",
+        "斗笠菇+音速拳+打草结:+2"
+      ]
+    },
+    "result_en": {
+      "score": 3,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "先手技×1:音速拳；斗笠菇+音速拳+打草结:+2",
+      "factors": [
+        "先手技×1:音速拳",
+        "斗笠菇+音速拳+打草结:+2"
+      ]
+    }
+  },
+  {
+    "name": "special_breloom_partial",
+    "pokemon": "斗笠菇",
+    "ability": "孢子",
+    "moves": [
+      "音速拳",
+      "蘑菇孢子"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 286,
+    "move_ids": [
+      183,
+      147
+    ],
+    "result_zh": {
+      "score": 2,
+      "label": "简单头",
+      "detail": "翻车技×1:蘑菇孢子；先手技×1:音速拳",
+      "factors": [
+        "翻车技×1:蘑菇孢子",
+        "先手技×1:音速拳"
+      ]
+    },
+    "result_en": {
+      "score": 2,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "翻车技×1:蘑菇孢子；先手技×1:音速拳",
+      "factors": [
+        "翻车技×1:蘑菇孢子",
+        "先手技×1:音速拳"
+      ]
+    }
+  },
+  {
+    "name": "special_wrong_pokemon",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "挑衅",
+      "近身战"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      269,
+      370
+    ],
+    "result_zh": {
+      "score": 0,
+      "label": "白给头",
+      "detail": "无威胁因子，脚本可稳定推进",
+      "factors": []
+    },
+    "result_en": {
+      "score": 0,
+      "label": "白给头",
+      "label_en": "No Threat",
+      "detail": "无威胁因子，脚本可稳定推进",
+      "factors": []
+    }
+  },
+  {
+    "name": "clamp_many_crash",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "电磁波",
+      "催眠术",
+      "唱歌",
+      "蘑菇孢子"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      86,
+      95,
+      47,
+      147
+    ],
+    "result_zh": {
+      "score": 4,
+      "label": "看脸头",
+      "detail": "翻车技×4:蘑菇孢子/唱歌/电磁波/催眠术",
+      "factors": [
+        "翻车技×4:蘑菇孢子/唱歌/电磁波/催眠术"
+      ]
+    },
+    "result_en": {
+      "score": 4,
+      "label": "看脸头",
+      "label_en": "RNG Alpha",
+      "detail": "翻车技×4:蘑菇孢子/唱歌/电磁波/催眠术",
+      "factors": [
+        "翻车技×4:蘑菇孢子/唱歌/电磁波/催眠术"
+      ]
+    }
+  },
+  {
+    "name": "clamp_high_many",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "电磁波",
+      "催眠术",
+      "唱歌",
+      "蘑菇孢子",
+      "奇异之光",
+      "超音波",
+      "吹捧",
+      "摇晃舞",
+      "可爱之吻",
+      "幻象光线",
+      "爆裂拳",
+      "迷昏拳"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      86,
+      95,
+      47,
+      147,
+      109,
+      48,
+      260,
+      298,
+      186,
+      60,
+      223,
+      146
+    ],
+    "result_zh": {
+      "score": 12,
+      "label": "还有高手？！？",
+      "detail": "翻车技×12:吹捧/迷昏拳/蘑菇孢子/摇晃舞/唱歌/超音波/天使之吻/幻象光线/电磁波/爆裂拳/催眠术/奇异之光",
+      "factors": [
+        "翻车技×12:吹捧/迷昏拳/蘑菇孢子/摇晃舞/唱歌/超音波/天使之吻/幻象光线/电磁波/爆裂拳/催眠术/奇异之光"
+      ]
+    },
+    "result_en": {
+      "score": 12,
+      "label": "还有高手？！？",
+      "label_en": "Unrated",
+      "detail": "翻车技×12:吹捧/迷昏拳/蘑菇孢子/摇晃舞/唱歌/超音波/天使之吻/幻象光线/电磁波/爆裂拳/催眠术/奇异之光",
+      "factors": [
+        "翻车技×12:吹捧/迷昏拳/蘑菇孢子/摇晃舞/唱歌/超音波/天使之吻/幻象光线/电磁波/爆裂拳/催眠术/奇异之光"
+      ]
+    }
+  },
+  {
+    "name": "edge_empty_moves",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [],
+    "result_zh": {
+      "score": 0,
+      "label": "白给头",
+      "detail": "无威胁因子，脚本可稳定推进",
+      "factors": []
+    },
+    "result_en": {
+      "score": 0,
+      "label": "白给头",
+      "label_en": "No Threat",
+      "detail": "无威胁因子，脚本可稳定推进",
+      "factors": []
+    }
+  },
+  {
+    "name": "edge_single_move",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "电磁波"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      86
+    ],
+    "result_zh": {
+      "score": 1,
+      "label": "简单头",
+      "detail": "翻车技×1:电磁波",
+      "factors": [
+        "翻车技×1:电磁波"
+      ]
+    },
+    "result_en": {
+      "score": 1,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "翻车技×1:电磁波",
+      "factors": [
+        "翻车技×1:电磁波"
+      ]
+    }
+  },
+  {
+    "name": "edge_unknown_moves",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "不存在的技能A",
+      "不存在的技能B"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      null,
+      null
+    ],
+    "result_zh": {
+      "score": 0,
+      "label": "白给头",
+      "detail": "无威胁因子，脚本可稳定推进",
+      "factors": []
+    },
+    "result_en": {
+      "score": 0,
+      "label": "白给头",
+      "label_en": "No Threat",
+      "detail": "无威胁因子，脚本可稳定推进",
+      "factors": []
+    }
+  },
+  {
+    "name": "edge_unknown_pokemon",
+    "pokemon": "不存在的精灵",
+    "ability": "无",
+    "moves": [
+      "电磁波"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": null,
+    "move_ids": [
+      86
+    ],
+    "result_zh": {
+      "score": 1,
+      "label": "简单头",
+      "detail": "翻车技×1:电磁波",
+      "factors": [
+        "翻车技×1:电磁波"
+      ]
+    },
+    "result_en": {
+      "score": 1,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "翻车技×1:电磁波",
+      "factors": [
+        "翻车技×1:电磁波"
+      ]
+    }
+  },
+  {
+    "name": "edge_with_male_percent",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "电磁波"
+    ],
+    "male_percent": 50.0,
+    "pokedex_id": 25,
+    "move_ids": [
+      86
+    ],
+    "result_zh": {
+      "score": 1,
+      "label": "简单头",
+      "detail": "翻车技×1:电磁波",
+      "factors": [
+        "翻车技×1:电磁波"
+      ]
+    },
+    "result_en": {
+      "score": 1,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "翻车技×1:电磁波",
+      "factors": [
+        "翻车技×1:电磁波"
+      ]
+    }
+  },
+  {
+    "name": "edge_male_125",
+    "pokemon": "皮卡丘",
+    "ability": "静电",
+    "moves": [
+      "电磁波"
+    ],
+    "male_percent": 12.5,
+    "pokedex_id": 25,
+    "move_ids": [
+      86
+    ],
+    "result_zh": {
+      "score": 1,
+      "label": "简单头",
+      "detail": "翻车技×1:电磁波",
+      "factors": [
+        "翻车技×1:电磁波"
+      ]
+    },
+    "result_en": {
+      "score": 1,
+      "label": "简单头",
+      "label_en": "Easy Alpha",
+      "detail": "翻车技×1:电磁波",
+      "factors": [
+        "翻车技×1:电磁波"
+      ]
+    }
+  }
+]

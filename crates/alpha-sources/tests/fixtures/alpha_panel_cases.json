@@ -1,0 +1,42 @@
+[
+  {
+    "name": "next_sibling_panel",
+    "html": "\n<div id=\"pokedex-base\"><p>base</p></div>\n<div id=\"pokedex-alpha\"><article class=\"pokedex-spawn-entry\">A</article>\n<div class=\"x\">deep</div></div></div></div></div>\n<div id=\"pokedex-location\"><p>loc</p></div>\n",
+    "panel": "id=\"pokedex-alpha\"><article class=\"pokedex-spawn-entry\">A</article>\n<div class=\"x\">deep"
+  },
+  {
+    "name": "close_four_divs",
+    "html": "\n<div class=\"outer\"><div id=\"pokedex-alpha\"><article class=\"pokedex-spawn-entry\">B</article>\n</div>\n</div>\n</div>\n</div>\n<div id=\"tail\">after</div>\n",
+    "panel": "id=\"pokedex-alpha\"><article class=\"pokedex-spawn-entry\">B</article>\n"
+  },
+  {
+    "name": "no_alpha_panel",
+    "html": "<div id=\"pokedex-stats\"><p>nothing here</p></div>",
+    "panel": "<div id=\"pokedex-stats\"><p>nothing here</p></div>"
+  },
+  {
+    "name": "both_terminators_panel_wins",
+    "html": "\n<div id=\"pokedex-alpha\"><article>x</article>\n<div id=\"pokedex-moves\">M</div>\n</div></div></div></div>\n",
+    "panel": "id=\"pokedex-alpha\"><article>x</article>\n"
+  },
+  {
+    "name": "both_terminators_divs_win",
+    "html": "\n<div id=\"pokedex-alpha\"><article>y</article>\n</div></div></div></div>\n<div id=\"pokedex-moves\">M</div>\n",
+    "panel": "id=\"pokedex-alpha\"><article>y</article>\n"
+  },
+  {
+    "name": "multibyte_content",
+    "html": "\n<div id=\"pokedex-alpha\"><article class=\"pokedex-spawn-entry\">雷电兽·湖泊</article>\n<p>中文内容不影响扫描</p>\n</div></div></div></div>\n",
+    "panel": "id=\"pokedex-alpha\"><article class=\"pokedex-spawn-entry\">雷电兽·湖泊</article>\n<p>中文内容不影响扫描</p>\n"
+  },
+  {
+    "name": "whitespace_between_divs",
+    "html": "\n<div id=\"pokedex-alpha\"><article>z</article>\n</div>\n  \n\t\n</div>\n</div>\n\n</div>\n",
+    "panel": "id=\"pokedex-alpha\"><article>z</article>\n"
+  },
+  {
+    "name": "empty",
+    "html": "",
+    "panel": ""
+  }
+]

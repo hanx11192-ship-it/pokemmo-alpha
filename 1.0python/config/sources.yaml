@@ -49,17 +49,8 @@ sources:
   - name: PokemmoTools Landing
     adapter: pokemmotools_landing
     enabled: true
-    priority: 9
+    priority: 20
     options:
       target: https://alpha.pokemmotools.org/alpha-list
       proxy: http://127.0.0.1:8899
-
-  - name: NEODEX Alpha
-    adapter: neodex_alpha
-    enabled: true
-    priority: 9
-    options:
-      # GraphQL 端点（适配器内已硬编码 GRAPHQL_URL，这里仅作记录）
-      target: https://neodex.tools/graphql
-      # 海外源站，VPS 直连不通，走本地隧道代理(autossh 维护的 8899)
-      proxy: http://127.0.0.1:8899
+  
