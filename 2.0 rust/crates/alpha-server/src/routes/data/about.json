@@ -148,7 +148,7 @@
       }
     ]
   },
-  "git": "https://github.com/hanx11192-ship-it",
+  "git": "https://github.com/hanx11192-ship-it/pokemmo-alpha",
   "built_with": {
     "zh": "Rust · axum · SQLite · Rhai 插件沙箱",
     "en": "Rust · axum · SQLite · Rhai plugin sandbox"

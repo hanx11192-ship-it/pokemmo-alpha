@@ -14,7 +14,7 @@
 //! 通过环境变量 `ALPHA_LIVE_DB` 指定路径；没设就跳过（CI 上不会失败）。
 //!
 //! ```bash
-//! scp -P 10026 root@120.220.76.140:/opt/pokemmo_alpha/panel/panel.db /tmp/live_panel.db
+//! scp -P <SSH端口> root@<你的服务器地址>:/opt/pokemmo_alpha/panel/panel.db /tmp/live_panel.db
 //! ALPHA_LIVE_DB=/tmp/live_panel.db cargo test -p alpha-store --test live_compat -- --nocapture
 //! ```
 //!

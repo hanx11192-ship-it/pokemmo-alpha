@@ -1,0 +1,35 @@
+# ============================================================================
+# 行尾与二进制文件策略
+# ============================================================================
+#
+# 为什么必须显式声明：
+#
+# 这个项目最终部署在 Linux 上（包括 Alpine + musl），而 clone 到 Windows 时
+# git 默认的 core.autocrlf 会把文本文件「检出成 CRLF」。一旦 deploy/*.sh、
+# deploy/*.openrc 这些脚本被检出成 CRLF，拿到服务器上执行就会直接报：
+#
+#     /bin/bash^M: bad interpreter: No such file or directory
+#
+# 这个报错看起来像「文件不存在」，实际是行尾多了个 ^M —— 非常难排查。
+# 所以这里统一钉死为 LF，不依赖每个人本地的 core.autocrlf 设置。
+# ============================================================================
+
+# 所有文本文件：仓库内与工作区都使用 LF
+* text=auto eol=lf
+
+# ---- 二进制文件：绝不转换 ----
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.gz    binary
+*.zip   binary
+*.db    binary
+
+# 预编译产物（无扩展名，靠路径匹配）
+alpha-server binary
+
+# ---- Windows 专用脚本保留 CRLF ----
+*.bat   text eol=crlf
+*.cmd   text eol=crlf

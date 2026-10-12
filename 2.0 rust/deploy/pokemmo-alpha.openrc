@@ -1,0 +1,83 @@
+#!/sbin/openrc-run
+# ============================================================================
+# Pokemmo Alpha 面板 —— OpenRC 服务脚本
+# ============================================================================
+#
+# 用途：Alpine / Gentoo 等使用 OpenRC 的系统（systemd 的对应物在
+#       同目录的 pokemmo-alpha.service）。
+#
+# 字段与 systemd unit 一一对应，语义说明见那份文件的注释。两边的
+# **默认值刻意保持一致**（端口除外：systemd 版默认 5703，本版默认
+# 10086 —— 见 deploy/README.md 的「端口」一节）。
+#
+# 可配置项写在 /etc/conf.d/pokemmo-alpha（OpenRC 会自动加载它与
+# 同名的 conf.d 文件，先读那边、再落到下面的默认值）。
+#
+# 安装：install.sh 把它装到 /etc/init.d/pokemmo-alpha，然后
+#       rc-update add pokemmo-alpha default
+#       rc-service pokemmo-alpha start
+# ============================================================================
+
+name="pokemmo-alpha"
+description="Pokemmo Alpha Dispatch Panel"
+
+# ---------------------------------------------------------------- 可配置项
+# `:=` 让 /etc/conf.d/pokemmo-alpha 里的值优先；那边没写才用这里的默认值。
+: "${PREFIX:=/opt/pokemmo_alpha}"
+: "${PORT:=10086}"
+: "${HOST:=0.0.0.0}"
+: "${RUST_LOG:=alpha_server=info,tower_http=info,warn}"
+
+# ---------------------------------------------------------------- 进程
+command="${PREFIX}/bin/alpha-server"
+command_user="root:root"
+directory="${PREFIX}"
+pidfile="/run/${RC_SVCNAME}.pid"
+
+# supervise-daemon 负责守护与崩溃拉起 —— 对应 systemd 的 Restart=always。
+# respawn_max=0 表示不限次数；respawn_delay=5 对齐 unit 里的 RestartSec=5。
+supervisor="supervise-daemon"
+respawn_delay=5
+respawn_max=0
+respawn_period=1800
+
+# 日志落文件，与 unit 里的 StandardOutput=append:...panel.log 一致。
+output_log="${PREFIX}/panel.log"
+error_log="${PREFIX}/panel.log"
+
+# ---------------------------------------------------------------- 环境变量
+# 面板从环境变量读这些（对应 unit 里的 Environment=）。
+# 注意 ENV_FILE 必须显式指定：Rust 侧对它的默认值是**相对当前工作目录**
+# 的 "panel.env"，不指定的话会去找 ${PREFIX}/panel.env 之外的位置，
+# 表现为「明明写了密钥却说没设置」。
+export ALPHA_WEB_ROOT="${PREFIX}/web"
+export DATA_DIR="${PREFIX}/data"
+export CONFIG_DIR="${PREFIX}/config"
+export ENV_FILE="${PREFIX}/panel.env"
+export PORT HOST RUST_LOG
+
+# ---------------------------------------------------------------- 启动前检查
+# 会话密钥是必需的（Rust 版没有默认值，缺失会拒绝启动）。这里提前
+# 检查并把原因说清楚，比让进程起来又立刻退出、只留一行日志好排查。
+start_pre() {
+    checkpath --directory --mode 0755 "${PREFIX}/data" "${PREFIX}/config"
+
+    if [ ! -f "${PREFIX}/panel.env" ]; then
+        eerror "缺少 ${PREFIX}/panel.env —— 面板需要它里面的 PANEL_SECRET。"
+        eerror "生成方法："
+        eerror "  echo \"PANEL_SECRET=\$(head -c 48 /dev/urandom | base64 | tr -d '\\n')\" >> ${PREFIX}/panel.env"
+        eerror "  chmod 600 ${PREFIX}/panel.env"
+        return 1
+    fi
+
+    if ! grep -qE '^[[:space:]]*PANEL_SECRET[[:space:]]*=' "${PREFIX}/panel.env"; then
+        eerror "${PREFIX}/panel.env 里没有 PANEL_SECRET —— 面板会拒绝启动。"
+        eerror "追加一行：PANEL_SECRET=<至少 32 字符的随机串>"
+        return 1
+    fi
+}
+
+depend() {
+    need net
+    after firewall
+}

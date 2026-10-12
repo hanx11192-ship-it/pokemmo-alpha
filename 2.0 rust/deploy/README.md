@@ -1,7 +1,9 @@
 # 部署
 
-一条安装脚本从零到 systemd 运行：拷文件 → 生成会话密钥 → 装 unit → 启动。
-数据与配置**已存在就不动**，所以重复执行是安全的（幂等升级）。
+一条安装脚本从零到服务运行：拷文件 → 生成会话密钥 → 装服务单元 → 启动。
+服务管理器**自动识别**：有 systemd 用 systemd，有 OpenRC（Alpine / Gentoo）用
+OpenRC，也可用 `--init` 强制指定。数据与配置**已存在就不动**，所以重复执行
+是安全的（幂等升级）。
 
 ## 快速开始
 
@@ -16,7 +18,7 @@ curl -s localhost:5703/api/me    # 应返回 {"authenticated":false,...}
 #    数据库为空时，登录页输入的用户名密码即创建管理员账号
 ```
 
-不想让脚本直接接管 systemd，就去掉 `--enable`：它会装好一切并打印手动启动命令，
+不想让脚本直接接管服务，就去掉 `--enable`：它会装好一切并打印手动启动命令，
 确认面板能打开、登录正常后，再补执行一次带 `--enable` 的命令即可。
 
 ## 安装脚本做了什么
@@ -30,7 +32,7 @@ curl -s localhost:5703/api/me    # 应返回 {"authenticated":false,...}
 | 数据库 | `data/panel.db` 不存在则提示首次启动自动建表；**存在则不动** |
 | 配置 | `config/*.yaml` 已存在不动；不存在则装默认配置 |
 | 会话密钥 | `panel.env` 没有 `PANEL_SECRET` 就自动生成（48 字节随机）；太弱就重新生成；权限 600 |
-| systemd | 装 unit（按 `--prefix`/`--port` 改写路径）→ `enable --now` → 打印状态 |
+| 服务单元 | 装 systemd unit **或** OpenRC 脚本（按 `--prefix`/`--port` 改写路径）→ 启用 → 打印状态 |
 
 ## 部署布局
 
@@ -49,6 +51,58 @@ curl -s localhost:5703/api/me    # 应返回 {"authenticated":false,...}
 
 `PORT`、`HOST`、`DATA_DIR`、`CONFIG_DIR`、`ENV_FILE`、`ALPHA_WEB_ROOT` 都可用
 环境变量覆盖；systemd unit 里已显式注入，换部署目录用 `install.sh --prefix` 即可。
+OpenRC 下同样的值写在 `/etc/conf.d/pokemmo-alpha`。
+
+## Alpine / musl 部署
+
+Alpine 用 musl libc、OpenRC 初始化，和主流发行版不同，有三点必须注意：
+
+**1) 二进制必须是 musl 版**
+
+默认 `cargo build --release` 产出的是**动态链接 glibc** 的二进制，拷到 Alpine
+上会报 `Error loading shared library ld-linux-x86-64.so.2`（看起来像文件不存在）。
+用仓库脚本构建静态版本：
+
+```bash
+# Debian/Ubuntu 上先装 musl 工具链
+sudo apt install musl-tools
+rustup target add x86_64-unknown-linux-musl
+
+# 在仓库根执行
+./deploy/build-musl.sh --copy bin      # 产物复制到 bin/alpha-server
+```
+
+产物是**静态链接**的，不依赖宿主 libc，可直接拷到任何 x86-64 机器运行。
+
+**2) 用 OpenRC 而不是 systemd**
+
+`install.sh` 会自动识别；也可显式指定：
+
+```bash
+sudo bash deploy/install.sh --from-dir bin --port 10086 --init openrc --enable
+```
+
+它装的是 `/etc/init.d/pokemmo-alpha` + `/etc/conf.d/pokemmo-alpha`（端口、路径）。
+`install.sh` 是 bash 脚本，Alpine 上若没装 bash 需先 `apk add bash`。
+
+**3) Alpine 最小系统还缺个 bash**
+
+`install.sh` 用 bash 语法。Alpine 默认只有 busybox ash：
+
+```bash
+apk add bash
+bash deploy/install.sh --from-dir bin --port 10086 --enable
+```
+
+日常管理命令对照：
+
+| 操作 | systemd | OpenRC |
+|---|---|---|
+| 看状态 | `systemctl status pokemmo-alpha` | `rc-service pokemmo-alpha status` |
+| 重启 | `systemctl restart pokemmo-alpha` | `rc-service pokemmo-alpha restart` |
+| 看日志 | `journalctl -u pokemmo-alpha -f` | `tail -f /opt/pokemmo_alpha/panel.log` |
+| 开机自启 | `systemctl enable pokemmo-alpha` | `rc-update add pokemmo-alpha default` |
+| 取消自启 | `systemctl disable pokemmo-alpha` | `rc-update del pokemmo-alpha default` |
 
 ## 会话密钥：`PANEL_SECRET`
 
@@ -81,7 +135,8 @@ echo "PANEL_SECRET=$(head -c 48 /dev/urandom | base64 | tr -d '\n')" >> /opt/pok
 **起来就退**
 
 ```bash
-journalctl -u pokemmo-alpha -n 50 --no-pager
+journalctl -u pokemmo-alpha -n 50 --no-pager   # systemd
+tail -n 50 /opt/pokemmo_alpha/panel.log        # OpenRC
 ```
 
 最常见的两条：
@@ -116,15 +171,19 @@ cookie 全部无效 —— 浏览器 F12 → 应用 → Cookie，删掉该站点
 **端口被占**
 
 ```bash
-ss -ltnp | grep 5703       # 看谁占着端口
-systemctl stop <占用的服务>  # 或者换端口：install.sh --port 5704
+ss -ltnp | grep 5703        # 看谁占着端口
+# systemd:
+systemctl stop <占用的服务>
+# OpenRC:
+rc-service <占用的服务> stop
+# 或者直接换端口：install.sh --port 10086
 ```
 
 ## 升级
 
 用新的 `alpha-server` 覆盖 `/opt/pokemmo_alpha/bin/alpha-server`，然后
-`systemctl restart pokemmo-alpha`。也可以直接重跑安装脚本（幂等，
-不会动已有的数据库、配置与密钥）。
+`systemctl restart pokemmo-alpha`（OpenRC：`rc-service pokemmo-alpha restart`）。
+也可以直接重跑安装脚本（幂等，不会动已有的数据库、配置与密钥）。
 
 ## 验证清单
 

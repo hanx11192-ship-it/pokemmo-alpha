@@ -4,8 +4,10 @@
 # ============================================================================
 #
 # 一条脚本完成：构建（或使用预编译二进制）→ 安装到 /opt/pokemmo_alpha →
-# 生成会话密钥 → 安装 systemd unit 并启动。
+# 生成会话密钥 → 安装服务单元（systemd 或 OpenRC）并启动。
 #
+#   - 服务管理器自动识别：有 systemd 用 systemd，有 OpenRC 用 OpenRC
+#     （Alpine / Gentoo），可用 --init 强制指定
 #   - 数据、配置「已存在就不动」：重复执行是安全的（幂等升级）
 #   - 任何一步失败都立刻退出（set -euo pipefail），不会留下半截状态
 #
@@ -14,7 +16,8 @@
 #   ./deploy/install.sh --enable                  # 从源码构建后部署并启动
 #   ./deploy/install.sh                           # 只安装不启用（先手动验证）
 #   ./deploy/install.sh --prefix /opt/xxx         # 换部署目录
-#   ./deploy/install.sh --port 5704               # 换监听端口（默认 5703）
+#   ./deploy/install.sh --port 10086              # 换监听端口（默认 5703）
+#   ./deploy/install.sh --init openrc             # 强制用 OpenRC（Alpine）
 #   ./deploy/install.sh --from-dir /path          # 指定已有构建产物所在目录
 #
 set -euo pipefail
@@ -26,6 +29,7 @@ OLD_SERVICE_NAME="pokemmo-panel"
 PORT="5703"
 ENABLE=0
 FROM_DIR=""
+INIT="auto"
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
@@ -58,6 +62,7 @@ while [[ $# -gt 0 ]]; do
     --prefix)   PREFIX="${2:?--prefix 需要一个路径}"; shift 2 ;;
     --port)     PORT="${2:?--port 需要一个端口号}"; shift 2 ;;
     --from-dir) FROM_DIR="${2:?--from-dir 需要一个路径}"; shift 2 ;;
+    --init)     INIT="${2:?--init 需要 systemd|openrc|auto}"; shift 2 ;;
     -h|--help)  usage ;;
     *)          die "未知参数: $1（用 --help 看用法）" ;;
   esac
@@ -66,7 +71,10 @@ done
 [[ "$PORT" =~ ^[0-9]+$ ]] && [[ "$PORT" -ge 1 ]] && [[ "$PORT" -le 65535 ]] \
   || die "端口不合法: $PORT"
 
-[[ "$(id -u)" == "0" ]] || die "需要 root 权限（要写 $PREFIX 和 /etc/systemd/system）"
+[[ "$INIT" =~ ^(auto|systemd|openrc)$ ]] \
+  || die "--init 只能是 auto / systemd / openrc，收到: $INIT"
+
+[[ "$(id -u)" == "0" ]] || die "需要 root 权限（要写 $PREFIX 和 /etc/systemd/system 或 /etc/init.d）"
 
 info "部署目录: ${BOLD}$PREFIX${RESET}"
 info "仓库根目录: $REPO_ROOT"
@@ -241,8 +249,12 @@ else
 fi
 
 # ============================================================================
-# 第 6 步：systemd
+# 第 6 步：服务管理器（systemd / OpenRC）
 # ============================================================================
+#
+# 现网是 systemd，但 Alpine 用的是 OpenRC —— 两者 unit 格式完全不同。
+# 所以这里按「机器上实际有什么」自动选择，不硬编码 systemd。
+# 用 --init systemd|openrc 可以强制（交叉打包镜像时有用）。
 
 if [[ "$ENABLE" != "1" ]]; then
   echo
@@ -271,49 +283,144 @@ EOF
   exit 0
 fi
 
-info "安装 systemd unit"
-UNIT_SRC="$REPO_ROOT/deploy/${SERVICE_NAME}.service"
-[[ -f "$UNIT_SRC" ]] || die "找不到 unit 模板: $UNIT_SRC"
+# ---------------------------------------------------------------- 服务管理
+# 两个安装函数各自独立，最后按检测结果调其中之一。
 
-# unit 里的路径是写死的 /opt/pokemmo_alpha、端口写死 5703。换 prefix / port 时
-# 同步替换，否则服务启动了但读的是另一个目录（或占了别人的端口）——
-# 那会是个很难看出来的错。
-sed -e "s#/opt/pokemmo_alpha#${PREFIX}#g" \
-    -e "s/^Environment=PORT=5703$/Environment=PORT=${PORT}/" \
-    "$UNIT_SRC" > "/etc/systemd/system/${SERVICE_NAME}.service"
-ok "/etc/systemd/system/${SERVICE_NAME}.service（端口 $PORT）"
+detect_init() {
+  if [[ "$INIT" != "auto" ]]; then echo "$INIT"; return; fi
+  if command -v systemctl >/dev/null 2>&1 && [[ -d /run/systemd/system ]]; then
+    echo systemd
+  elif command -v rc-service >/dev/null 2>&1 || [[ -x /sbin/openrc-run ]]; then
+    echo openrc
+  else
+    echo none
+  fi
+}
 
-systemctl daemon-reload
+# ---- systemd（主流发行版默认）----
+install_systemd() {
+  info "安装 systemd unit"
+  UNIT_SRC="$REPO_ROOT/deploy/${SERVICE_NAME}.service"
+  [[ -f "$UNIT_SRC" ]] || die "找不到 unit 模板: $UNIT_SRC"
 
-# 旧的 pokemmo-panel 服务还在跑时停掉它：端口冲突，两个不能同时跑
-if systemctl is-active --quiet "$OLD_SERVICE_NAME" 2>/dev/null; then
-  info "停止旧服务（$OLD_SERVICE_NAME）"
-  systemctl stop "$OLD_SERVICE_NAME"
-  systemctl disable "$OLD_SERVICE_NAME" >/dev/null 2>&1 || true
-  ok "旧服务已停止（unit 文件保留，想切回就 systemctl start $OLD_SERVICE_NAME）"
-fi
+  # unit 里的路径写死 /opt/pokemmo_alpha、端口写死 5703。换 prefix / port 时
+  # 同步替换，否则服务启动了但读的是另一个目录（或占了别人的端口）——
+  # 那会是个很难看出来的错。
+  sed -e "s#/opt/pokemmo_alpha#${PREFIX}#g" \
+      -e "s/^Environment=PORT=5703$/Environment=PORT=${PORT}/" \
+      "$UNIT_SRC" > "/etc/systemd/system/${SERVICE_NAME}.service"
+  ok "/etc/systemd/system/${SERVICE_NAME}.service（端口 $PORT）"
 
-systemctl enable --now "$SERVICE_NAME"
+  systemctl daemon-reload
 
-# systemd 启动是异步的，给它两秒再检查状态
-sleep 2
-if systemctl is-active --quiet "$SERVICE_NAME"; then
-  ok "服务已启动"
-  echo
-  systemctl --no-pager status "$SERVICE_NAME" | head -12
-  echo
-  printf '%s常用命令%s\n' "$BOLD" "$RESET"
-  cat <<EOF
+  # 旧的 pokemmo-panel 还在跑时停掉它：端口冲突，两个不能同时跑
+  if systemctl is-active --quiet "$OLD_SERVICE_NAME" 2>/dev/null; then
+    info "停止旧服务（$OLD_SERVICE_NAME）"
+    systemctl stop "$OLD_SERVICE_NAME"
+    systemctl disable "$OLD_SERVICE_NAME" >/dev/null 2>&1 || true
+    ok "旧服务已停止（unit 文件保留，想切回就 systemctl start $OLD_SERVICE_NAME）"
+  fi
+
+  systemctl enable --now "$SERVICE_NAME"
+
+  # systemd 启动是异步的，给它两秒再检查状态
+  sleep 2
+  if systemctl is-active --quiet "$SERVICE_NAME"; then
+    ok "服务已启动"
+    echo
+    systemctl --no-pager status "$SERVICE_NAME" | head -12
+    echo
+    printf '%s常用命令%s\n' "$BOLD" "$RESET"
+    cat <<EOF
   看状态    systemctl status $SERVICE_NAME
   看日志    journalctl -u $SERVICE_NAME -f     （或 tail -f $PREFIX/panel.log）
   重启      systemctl restart $SERVICE_NAME
   切回旧服务 systemctl stop $SERVICE_NAME && systemctl start $OLD_SERVICE_NAME
 EOF
-else
-  echo
-  warn "服务启动失败。看日志："
-  echo
-  journalctl -u "$SERVICE_NAME" --no-pager -n 40
-  echo
-  die "启动失败 —— 上面的日志里应该有具体原因（最常见的是 PANEL_SECRET 不合格）"
-fi
+  else
+    echo
+    warn "服务启动失败。看日志："
+    echo
+    journalctl -u "$SERVICE_NAME" --no-pager -n 40
+    echo
+    die "启动失败 —— 上面的日志里应该有具体原因（最常见的是 PANEL_SECRET 不合格）"
+  fi
+}
+
+# ---- OpenRC（Alpine / Gentoo）----
+install_openrc() {
+  info "安装 OpenRC 服务"
+  local openrc_src="$REPO_ROOT/deploy/${SERVICE_NAME}.openrc"
+  local confd_src="$REPO_ROOT/deploy/${SERVICE_NAME}.confd"
+  local confd="/etc/conf.d/${SERVICE_NAME}"
+  [[ -f "$openrc_src" ]] || die "找不到 OpenRC 模板: $openrc_src"
+
+  # 服务脚本本体（可执行）。busybox 的 install 支持 -m，但用 cp+chmod 更保险。
+  cp -f "$openrc_src" "/etc/init.d/${SERVICE_NAME}"
+  chmod 0755 "/etc/init.d/${SERVICE_NAME}"
+  ok "/etc/init.d/${SERVICE_NAME}"
+
+  # 可配置项（/etc/conf.d）。已存在就不动 —— 用户可能自己调过端口。
+  if [[ -f "$confd" ]]; then
+    ok "$confd 已存在（未改动）"
+  elif [[ -f "$confd_src" ]]; then
+    sed -e "s#/opt/pokemmo_alpha#${PREFIX}#g" \
+        -e "s/^PORT=\"10086\"$/PORT=\"${PORT}\"/" \
+        "$confd_src" > "$confd"
+    chmod 0644 "$confd"
+    ok "$confd（端口 $PORT）"
+  fi
+
+  # 旧的 pokemmo-panel 还在跑就停掉它（端口冲突）
+  if rc-service "$OLD_SERVICE_NAME" status >/dev/null 2>&1; then
+    info "停止旧服务（$OLD_SERVICE_NAME）"
+    rc-service "$OLD_SERVICE_NAME" stop || true
+    rc-update del "$OLD_SERVICE_NAME" default >/dev/null 2>&1 || true
+    ok "旧服务已停止（脚本保留，想切回就 rc-service $OLD_SERVICE_NAME start）"
+  fi
+
+  rc-update add "$SERVICE_NAME" default >/dev/null 2>&1 || true
+  rc-service "$SERVICE_NAME" start || true
+
+  sleep 2
+  if rc-service "$SERVICE_NAME" status >/dev/null 2>&1; then
+    ok "服务已启动"
+    echo
+    printf '%s常用命令%s\n' "$BOLD" "$RESET"
+    cat <<EOF
+  看状态    rc-service $SERVICE_NAME status
+  看日志    tail -f $PREFIX/panel.log
+  重启      rc-service $SERVICE_NAME restart
+  开机自启  rc-update add $SERVICE_NAME default
+  取消自启  rc-update del $SERVICE_NAME default
+EOF
+  else
+    echo
+    warn "服务启动失败。看日志："
+    echo
+    tail -n 40 "$PREFIX/panel.log" 2>/dev/null || true
+    echo
+    die "启动失败 —— 上面的日志里应该有具体原因（最常见的是 PANEL_SECRET 不合格）"
+  fi
+}
+
+INIT_KIND="$(detect_init)"
+info "服务管理器: ${BOLD}${INIT_KIND}${RESET}"
+
+case "$INIT_KIND" in
+  systemd) install_systemd ;;
+  openrc)  install_openrc ;;
+  none)
+    echo
+    warn "机器上既没有 systemd 也没有 OpenRC —— 跳过服务安装。"
+    echo
+    cat <<EOF
+  二进制与资源都已就位，可手动（或自写守护脚本）启动：
+
+      cd $PREFIX
+      ALPHA_WEB_ROOT=$PREFIX/web ENV_FILE=$PREFIX/panel.env \\
+      DATA_DIR=$PREFIX/data CONFIG_DIR=$PREFIX/config PORT=$PORT \\
+      $PREFIX/bin/alpha-server
+EOF
+    exit 0 ;;
+esac

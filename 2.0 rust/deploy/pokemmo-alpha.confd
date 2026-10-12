@@ -1,0 +1,19 @@
+# ============================================================================
+# Pokemmo Alpha 面板 —— OpenRC 运行参数
+# 安装位置：/etc/conf.d/pokemmo-alpha
+# ============================================================================
+# 改完执行：rc-service pokemmo-alpha restart
+# 这些值与 systemd unit 里的 Environment= 等价（端口默认值不同，见下）。
+# ============================================================================
+
+# 部署目录（install.sh --prefix 会同步改写这里）
+PREFIX="/opt/pokemmo_alpha"
+
+# 监听端口与地址。
+# 默认 10086（systemd 模板默认 5703）—— 换端口改这里即可，
+# 不需要动 /etc/init.d/pokemmo-alpha。
+PORT="10086"
+HOST="0.0.0.0"
+
+# 日志级别。排查问题临时调：RUST_LOG="alpha_server=debug"
+RUST_LOG="alpha_server=info,tower_http=info,warn"
