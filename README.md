@@ -7,10 +7,9 @@
 </p>
 
 <p align="center">
-  <a href="https://anexample.top/demo-site/"><strong><span lang="zh">前端演示站点</span> <span lang="en">Live Demo</span></strong></a>
+  <a href="https://anexample.top/alpha/"><strong><span lang="zh">前端演示站点1</span> <span lang="en">Live Demo</span></strong></a>
   <br>
-  <span lang="zh">（后端演示服务器是白嫖来的，随时可能暴毙，请勿依赖）</span>
-  <span lang="en">(The demo backend is a freebie server — it may go down at any time.)</span>
+<a href="https://anexample.top/demo-site/"><strong><span lang="zh">前端演示站点2</span> <span lang="en">Live Demo</span></strong></a>
 </p>
 
 <p align="center">
