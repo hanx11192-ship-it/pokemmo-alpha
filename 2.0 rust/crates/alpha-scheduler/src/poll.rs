@@ -11,6 +11,11 @@
 //! | `notify_error` | 推送抛异常 | **不写去重标记**（下轮重试）、**不暂停** |
 //! | `pushed` | 推送成功 | 写去重标记 + `current_slot` + 自动暂停 |
 //!
+//! 注意 `pushed` 包含**部分渠道失败**：`Dispatcher` 只要有一个渠道送达就返回 Ok，
+//! 所以「QQ 群挂了但 wxpusher 正常」也算 `pushed`（去重标记照写、不重试）。
+//! 这种情况会额外写一条 Error 日志，见下文第 9.5 步 —— 不写日志页的话，
+//! 界面会显示「推送成功」而某个群其实一条都没收到。
+//!
 //! # 三个非直觉的顺序细节
 //!
 //! ## 1. 去重检查在推送**之前**，但写标记在推送**之后**
@@ -477,6 +482,44 @@ pub async fn poll_once(deps: &Deps<'_>, debug: bool, force: bool) -> PollOutcome
             };
         }
     };
+
+    // ---- 9.5) 部分渠道失败也要在日志页留痕 ----
+    // `Dispatcher` 的语义是「只要有一个渠道送达，本轮就算成功」（见
+    // alpha-notify 的模块注释），所以走到这里拿到的通常是 Ok。
+    // 但**部分失败**（典型：QQ 群桥接挂了、wxpusher 正常）过去只在
+    // `send_all` 里写一条 `tracing::warn!` —— 那是进程 stdout，
+    // 面板日志页看不到，于是界面显示「推送成功」，而某个群一条没收到。
+    // 这里补一条 Error 日志，把失败渠道与原因写进日志页。
+    //
+    // 注意：状态仍是 `pushed`、去重标记照写、**不重试**。
+    // 已经有人收到了，重推等于给成功的渠道刷重复消息；
+    // 而写 Error 日志只是让运维看得见，不改判定。
+    let failed_channels: Vec<String> = send_res
+        .details
+        .iter()
+        .filter(|d| !d.ok)
+        .map(|d| {
+            format!(
+                "{}[{}]: {}",
+                d.name,
+                d.kind.as_str(),
+                d.error.as_deref().unwrap_or("未知错误")
+            )
+        })
+        .collect();
+    if !failed_channels.is_empty() {
+        store.log(
+            alpha_store::LogLevel::Error,
+            "notify",
+            &format!(
+                "部分渠道推送失败（{}/{} 失败）：{}",
+                send_res.failed,
+                send_res.sent + send_res.failed,
+                failed_channels.join("；")
+            ),
+            "notify",
+        );
+    }
 
     // ---- 10) 成功：写标记 + 暂停 ----
     // `mark()` 内部已经做了原子保存（写 .tmp 再 rename），不要再单独调 save()
