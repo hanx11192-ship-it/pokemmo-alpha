@@ -71,7 +71,22 @@ impl AlphapediaSource {
             "accept-language".into(),
             "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7".into(),
         );
-        h.insert("Accept-Encoding".into(), "identity".into());
+        // ⚠️ 这里**故意不写** `Accept-Encoding`。
+        //
+        // 以前写的是 `Accept-Encoding: identity`（即「别压缩，给我原始字节」），
+        // 2026-10-21 实测它的代价很离谱：
+        //
+        //   · 同一个页面：identity → 54,172 B，gzip → 2,729 B（**20:1**）
+        //   · aly 到该源的两个 Cloudflare Anycast IP 之间正在丢包，
+        //     54 KB ≈ 37 个满包，2.7 KB ≈ 2 个包 —— 包数直接决定撞上丢包的概率。
+        //     现象就是「TCP 连得上、TLS 握手 1–8s、然后读到一半卡死到超时」。
+        //
+        // workspace 的 reqwest 已经开了 `gzip` 特性，它会自动加 accept-encoding
+        // 并**透明解压**，所以不写这一行才能吃到压缩。
+        // 别再加回来 —— 除非哪天确认某个源返回的 gzip 解不开。
+        //
+        // （历史猜测：当初可能是担心 reqwest 没开 gzip 特性导致拿到压缩字节解析失败，
+        //   但那个特性一直开着，这行属于多余且有害的防御。）
 
         // 源站新接口要 Bearer 鉴权，key 从环境变量读（不进配置文件）
         let env_name = self

@@ -8,6 +8,7 @@
 //! 主流程不需要任何改动 —— 它只认 [`FetchResult`]。
 
 use std::collections::HashMap;
+use std::sync::{Mutex, OnceLock};
 use std::time::Duration;
 
 use alpha_core::config::Config;
@@ -74,6 +75,76 @@ pub struct TransformPlan {
     pub headers: HashMap<String, String>,
 }
 
+// ------------------------------------------------------------------ 客户端复用
+//
+// # 为什么要有这一层
+//
+// `alpha-scheduler::poll::poll_once` 每一轮都会调一次源工厂
+// （`(deps.sources)(&deps.config)`，见 poll.rs 第 270 行附近），也就是
+// **每轮都重新构造所有源实例**。而 `HttpClient::new` 以前是这样的：
+//
+//     reqwest::Client::builder()....build()
+//
+// `reqwest::Client` 自带连接池，但**新建一个 Client 等于新建一个空池** ——
+// 于是每一轮、每一个源都要重新做一次 TCP + TLS 握手，60 秒一次，一天 1440 次。
+//
+// 正常链路上这没什么（NEODEX 握手 0.5s）。但对链路在丢包的源就是灾难：
+// 2026-10-21 实测 aly → alphapedia 的两个 Cloudflare Anycast IP，
+// TLS 握手要 0.6–8.4s，且约 30% 的连接连 TCP 都建不起来。
+// 每秒都在重做握手，等于每分钟都去赌一次运气。
+//
+// 把 Client 缓存起来之后，连接（含 TLS 会话）跨轮存活，握手从「每分钟一次」
+// 变成「空闲超时之后才重来一次」，暴露在丢包上的次数直接降两个数量级。
+// 顺带所有源都受益，不只是 alphapedia。
+//
+// # 缓存键怎么定
+//
+// Client 的行为只由这四项决定：proxy / verify_ssl / 读超时 / 连接超时。
+// **源名、target、请求头都不能进键** —— 它们不影响 Client 本身，
+// 进去了就变成「每个源一个池」，等于没复用。
+
+/// 按「影响 Client 行为的配置」拼缓存键。
+fn client_cache_key(
+    proxy: Option<&str>,
+    verify_ssl: bool,
+    read_timeout: Duration,
+    connect_timeout: Duration,
+) -> String {
+    format!(
+        "{}|{}|{}|{}",
+        proxy.unwrap_or("-"),
+        verify_ssl,
+        read_timeout.as_secs_f64(),
+        connect_timeout.as_secs_f64()
+    )
+}
+
+/// 取（必要时才建）一个共享的 `reqwest::Client`。
+///
+/// 拿不到锁时不会报错，只是退化成「本次新建、不进缓存」——
+/// 缓存的锁中毒不该让抓取直接失败。
+fn shared_client<F>(key: String, build: F) -> reqwest::Result<reqwest::Client>
+where
+    F: FnOnce() -> reqwest::Result<reqwest::Client>,
+{
+    static CACHE: OnceLock<Mutex<HashMap<String, reqwest::Client>>> = OnceLock::new();
+    let cache = CACHE.get_or_init(|| Mutex::new(HashMap::new()));
+
+    if let Ok(guard) = cache.lock() {
+        if let Some(client) = guard.get(&key) {
+            return Ok(client.clone());
+        }
+    }
+
+    let client = build()?;
+
+    if let Ok(mut guard) = cache.lock() {
+        guard.insert(key, client.clone());
+    }
+
+    Ok(client)
+}
+
 impl HttpClient {
     /// 按源配置 + 全局 HTTP 设置构造。
     pub fn new(tag: &str, options: &alpha_core::config::SourceOptions, cfg: &Config) -> SourceResult<Self> {
@@ -107,8 +178,15 @@ impl HttpClient {
             builder = builder.no_proxy();
         }
 
-        let client = builder
-            .build()
+        // 复用进程内已有的 Client（连接池 + TLS 会话），见上方的「客户端复用」注释。
+        // 注意 `builder` 只能 move 进闭包 —— 它是 !Clone，而且只有缓存未命中时才会被调用。
+        let cache_key = client_cache_key(
+            proxy.as_deref(),
+            http.verify_ssl,
+            read_timeout,
+            connect_timeout,
+        );
+        let client = shared_client(cache_key, move || builder.build())
             .map_err(|e| SourceError::Config(format!("构造 HTTP 客户端失败: {e}")))?;
 
         Ok(Self {
