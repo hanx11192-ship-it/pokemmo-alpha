@@ -8,12 +8,7 @@
   <span lang="en">Push-notification QQ group: <strong>857597325</strong></span>
 </p>
 
-<p align="center">
-  <a href="https://anexample.top/demo-site/"><strong><span lang="zh">前端演示站点</span> <span lang="en">Live Demo</span></strong></a>
-  <br>
-  <span lang="zh">（后端演示服务器是白嫖来的，随时可能暴毙，请勿依赖）</span>
-  <span lang="en">(The demo backend is a freebie server — it may go down at any time.)</span>
-</p>
+
 
 <p align="center">
   <span lang="zh">自用推送 QQ 群：<strong>857597325</strong></span>
