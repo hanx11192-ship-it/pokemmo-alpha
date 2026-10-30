@@ -1,9 +1,11 @@
 # <span lang="zh">Pokemmo Alpha 头目监控面板</span> <span lang="en">Pokemmo Alpha Boss Monitor Panel</span>
 
 <p align="center">
-  <strong><span lang="zh">并发轮询 · 命中即播报 · 冲突投票 · 跨源去重 · 决策 · 分发</span></strong>
+  <a href="https://anexample.top/alpha"><strong><span lang="zh">在线演示</span> <span lang="en">Live Demo</span></strong></a>
   <br>
-  <span lang="en">Multi-source Monitor · Vote · Cross-source Dedup · Decide · Dispatch</span>
+  <span lang="zh">推送 QQ 群：<strong>857597325</strong></span>
+  <br>
+  <span lang="en">Push-notification QQ group: <strong>857597325</strong></span>
 </p>
 
 <p align="center">
