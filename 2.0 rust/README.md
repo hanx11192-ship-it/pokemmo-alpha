@@ -10,11 +10,6 @@
 
 
 
-<p align="center">
-  <span lang="zh">自用推送 QQ 群：<strong>857597325</strong></span>
-  <br>
-  <span lang="en">Push-notification QQ group: <strong>857597325</strong></span>
-</p>
 
 ---
 
